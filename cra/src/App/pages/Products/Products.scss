@@ -1,0 +1,16 @@
+.products {
+    &__list {
+        padding: 34px 6.8vw;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+    &__title {
+        margin: 30px 6.7vw;
+        font-size: 59px;
+        font-family: 'Eudoxus Sans';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 57px;
+        line-height: 130%;
+    }
+}
