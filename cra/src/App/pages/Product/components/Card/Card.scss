@@ -1,0 +1,47 @@
+@import '@styles/EudoxusSans/fonts';
+
+.product {
+    &-card {
+        font-family: 'Eudoxus Sans';
+        font-style: normal;
+        display: flex;
+        padding: 140px 6.8vw;
+        &__title {
+            font-weight: 700;
+            font-size: 59px;
+            line-height: 130%;
+            margin: 42px 0 27px;
+        }
+        &__description {
+            font-weight: 500;
+            font-size: 23px;
+            line-height: 180%;
+        }
+        &__price {
+            font-weight: 700;
+            font-size: 59px;
+            margin: 169px 0 64px;
+            line-height: 130%;
+        }
+        &__button {
+            &-group {
+                display: flex;
+            }
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 130%;
+            background-color: #518581;
+            color: white;
+            border: none;
+            width: max-content;
+            padding: 20px 7vw 20px;
+            &-outline {
+                color: black;
+                background-color: white;
+                border: 2px solid #F3F3F3;
+                margin-left: 1.5vw;
+                padding: 20px 6.2vw 20px;
+            }
+        }
+    }
+}
