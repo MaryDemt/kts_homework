@@ -1,11 +1,9 @@
-@import '@styles/EudoxusSans/fonts';
-
 .product {
     &-card {
         font-family: 'Eudoxus Sans';
         font-style: normal;
         display: flex;
-        padding: 140px 6.8vw;
+        padding: 140px 6.8vw 65px;
         &__title {
             font-weight: 700;
             font-size: 59px;

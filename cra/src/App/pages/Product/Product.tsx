@@ -4,7 +4,10 @@ import axios, { AxiosResponse } from "axios";
 import { useParams } from "react-router-dom";
 
 import Card from "./components/Card/Card";
+import CardItem from "../Products/components/Card/Card";
 import { ProductItem } from "../Products/Products";
+
+import "./Product.scss";
 
 const Product = () => {
   const [product, setProduct] = useState<ProductItem>();
@@ -21,7 +24,21 @@ const Product = () => {
     });
     setProduct(responseData.data);
   };
-  return product && Object.keys(product).length ? <Card {...product} /> : <></>;
+  return product && Object.keys(product).length ? (
+    <>
+      <Card {...product} />
+      <section className="product__related">
+        <h2 className="product__related-title">Related Items</h2>
+        <ul className="product__related-list">
+          <CardItem {...product} />
+          <CardItem {...product} />
+          <CardItem {...product} />
+        </ul>
+      </section>
+    </>
+  ) : (
+    <></>
+  );
 };
 
 export default Product;

@@ -90,3 +90,25 @@ ul {
     margin: 0;
     padding: 0;
 }
+
+
+.icon {
+    width: 40px;
+    height: 40px;
+    width: 40px;
+    height: 40px;
+    margin-right: 1.6vw;
+    margin-top: 10px;
+    &__main {
+        width: 8.8vw;
+        height: 100px;
+    }
+    &__filter {
+        margin-right: 0.8vw;
+        margin-top: 3px;
+    }
+    &__search {
+        margin-right: 1.3vw;
+        margin-top: 0px;
+    }
+}

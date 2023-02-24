@@ -1,0 +1,18 @@
+.product {
+    &__related {
+        padding: 0 6.8vw;
+        &-title {
+            font-family: 'Eudoxus Sans';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 42px;
+            line-height: 130%;
+            letter-spacing: 0.01em;
+            color: #151411;
+            margin-bottom: 38px;
+        }
+        &-list {
+            display: flex;
+        }
+    }
+}
