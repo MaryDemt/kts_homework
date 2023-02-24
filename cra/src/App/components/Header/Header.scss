@@ -1,0 +1,33 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 27px 6.8vw;
+    font-family: 'Eudoxus Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 180%;
+    color: #151411;
+    border-bottom: 2px solid #F3F3F3;
+    &__tabs {
+        display: flex;
+        margin-left: 1vw;
+        &-item {
+            font-size: 24px;
+            margin-right: 4vw;
+            &_active {
+                color: #518581;
+                position: relative;
+                &::after {
+                    content: '';
+                    border: 2px solid #518581;
+                    position: absolute;
+                    width: 100%;
+                    left: 0;
+                    bottom: -64px;
+                }
+            }
+        }
+    }
+}
