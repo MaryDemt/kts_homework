@@ -1,10 +1,22 @@
 .products {
+    
     &__list {
         padding: 34px 6.8vw;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
     }
     &__title {
+        font-family: 'Eudoxus Sans';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 82px;
+        line-height: 130%;
+        text-align: center;
+        color: #151411;
+        margin: 133px 1.6vw 25px 0;
+        padding: 0 6.8vw;
+    }
+    &__subtitle {
         margin: 30px 6.7vw;
         font-size: 59px;
         font-family: 'Eudoxus Sans';
@@ -12,5 +24,75 @@
         font-weight: 700;
         font-size: 57px;
         line-height: 130%;
+    }
+    &__description {
+        word-spacing: 1px;
+        font-family: 'Eudoxus Sans';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 23px;
+        line-height: 180%;
+        text-align: center;
+        color: #AFADB5;
+        margin: 0 30vw 0 28.4vw;
+    }
+    &__search {
+        margin: 110px 8.5vw 65px 6.8vw;
+        font-family: 'Eudoxus Sans';
+        font-style: normal;
+        display: flex;
+        &-button {
+            background: #518581;
+            padding: 20px 1.9vw;
+            color: white;
+            font-weight: 700;
+            font-size: 23px;
+            line-height: 130%;
+            margin: -5px 0.2vw 0 auto;
+        }
+    }
+    &__label {
+        background: #FFFFFF;
+        box-shadow: 0px 4px 20px rgba(175, 173, 181, 0.2);
+        position: relative;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        width: 100%;
+        margin-right: 2.1vw;
+        padding: 19px 1.7vw;
+
+    }
+    &__input {
+        padding-top: 3px;
+        &::placeholder {
+            font-family: 'Eudoxus Sans';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 23px;
+            line-height: 180%;
+        }
+    }
+    &__button {
+        background: #FFFFFF;
+        box-shadow: 0px 4px 20px rgba(175, 173, 181, 0.2);
+        font-size: 24px;
+        line-height: 180%;
+        font-weight: 500;
+        color: #151411;
+        padding: 26px 3.4vw;
+        display: flex;
+    }
+    &__length {
+        font-family: 'Eudoxus Sans';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 130%;
+        padding: 10px 16px;
+        background: #F9F9F9;
+        color: #518581;
+        border-radius: 20px;
+        vertical-align: super;
     }
 }
