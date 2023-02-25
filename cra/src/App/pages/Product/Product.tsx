@@ -11,11 +11,21 @@ import "./Product.scss";
 
 const Product = () => {
   const [product, setProduct] = useState<ProductItem>();
+  const [categoryId, setCategoryId] = useState<number>();
+  const [listOfSimilarProducts, setListOfSimilarProducts] = useState<
+    ProductItem[]
+  >([]);
   const { id } = useParams();
 
   useEffect(() => {
     handleGetDataProduct();
   }, []);
+
+  useEffect(() => {
+    if (categoryId) {
+      handleGetDataSimilarProduct();
+    }
+  }, [categoryId]);
 
   const handleGetDataProduct = async () => {
     let responseData: AxiosResponse = await axios({
@@ -23,16 +33,28 @@ const Product = () => {
       url: `https://api.escuelajs.co/api/v1/products/${id}`,
     });
     setProduct(responseData.data);
+    setCategoryId(responseData.data.category.id);
   };
+
+  const handleGetDataSimilarProduct = async () => {
+    let responseData: AxiosResponse = await axios({
+      method: "get",
+      url: `https://api.escuelajs.co/api/v1/categories/${categoryId}/products`,
+    });
+    setListOfSimilarProducts(responseData.data.slice(0, 3));
+  };
+
   return product && Object.keys(product).length ? (
     <>
       <Card {...product} />
       <section className="product__related">
         <h2 className="product__related-title">Related Items</h2>
         <ul className="product__related-list">
-          <CardItem {...product} />
-          <CardItem {...product} />
-          <CardItem {...product} />
+          {listOfSimilarProducts.length
+            ? listOfSimilarProducts.map((product) => {
+                return <CardItem {...product} />;
+              })
+            : ""}
         </ul>
       </section>
     </>
