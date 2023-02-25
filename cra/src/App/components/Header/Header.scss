@@ -1,3 +1,5 @@
+@import '@styles/constants';
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -8,8 +10,8 @@
     font-weight: 500;
     font-size: 18px;
     line-height: 180%;
-    color: #151411;
-    border-bottom: 2px solid #F3F3F3;
+    color: $main-black;
+    border-bottom: 2px solid $main-grey;
     &__tabs {
         display: flex;
         margin-left: 1vw;
@@ -17,11 +19,11 @@
             font-size: 24px;
             margin-right: 4vw;
             &_active {
-                color: #518581;
+                color: $main-green;
                 position: relative;
                 &::after {
                     content: '';
-                    border: 2px solid #518581;
+                    border: 2px solid $main-green;
                     position: absolute;
                     width: 100%;
                     left: 0;

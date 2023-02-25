@@ -1,3 +1,5 @@
+@import '@styles/constants';
+
 .product {
     &-card {
         font-family: 'Eudoxus Sans';
@@ -28,15 +30,15 @@
             font-weight: 700;
             font-size: 24px;
             line-height: 130%;
-            background-color: #518581;
-            color: white;
+            background-color: $main-green;
+            color: $main-white;
             border: none;
             width: max-content;
             padding: 20px 7vw 20px;
             &-outline {
-                color: black;
-                background-color: white;
-                border: 2px solid #F3F3F3;
+                color: $secondary-black;
+                background-color: $main-white;
+                border: 2px solid $main-grey;
                 margin-left: 1.5vw;
                 padding: 20px 6.2vw 20px;
             }

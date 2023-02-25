@@ -1,3 +1,5 @@
+@import '@styles/constants';
+
 .slider {
     position: relative;
     margin-right: 3.4vw;
@@ -11,19 +13,18 @@
     }
     &__icon {
         position: absolute;
-        width: 30px;
-        height: 30px;    
+        @include iconSize(30px, 30px);
         fill: none;
-        stroke:white;
+        stroke:$main-white;
         stroke-width:3;
         stroke-miterlimit:10;
         stroke-linecap: round;
         stroke-linejoin: round;
         padding: 28px 27px;
         border-radius: 50%;
-        background-color: black;
+        background-color: $secondary-black;
         opacity: 0.6;
-        box-shadow: 0px 4px 20px rgba(175, 173, 181, 0.2);
+        @include box-shadow();
         &:hover {
             opacity: 1;
         }
