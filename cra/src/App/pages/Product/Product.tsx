@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import Card from "@pages/Product/components/Card";
+import styles from "@pages/Product/Product.module.scss";
 import CardItem from "@pages/Products/components/Card/Card";
 import { ProductItem } from "@pages/Products/Products";
 import axios, { AxiosResponse } from "axios";
@@ -46,9 +47,9 @@ const Product = () => {
   return product && Object.keys(product).length ? (
     <>
       <Card {...product} />
-      <section className="product__related">
-        <h2 className="product__related-title">Related Items</h2>
-        <ul className="product__related-list">
+      <section className={styles.product__related}>
+        <h2 className={styles["product__related-title"]}>Related Items</h2>
+        <ul className={styles["product__related-list"]}>
           {listOfSimilarProducts.length
             ? listOfSimilarProducts.map((product) => {
                 return <CardItem key={product.id} {...product} />;

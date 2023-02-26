@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { ProductItem } from "@pages/Products/Products";
 
+import styles from "./Slider.module.scss";
 
 const Slider = (product: ProductItem) => {
   const [listOfImages, setListOfImages] = useState<string[]>();
@@ -9,6 +10,7 @@ const Slider = (product: ProductItem) => {
 
   useEffect(() => {
     setListOfImages(product.images);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSetActiveImage = (step: number) => {
@@ -28,13 +30,15 @@ const Slider = (product: ProductItem) => {
   };
 
   return (
-    <div className="slider">
+    <div className={styles.slider}>
       {product.images && product.images.length
         ? product.images.map((item: string, index: number) => {
             return (
               <img
-                className={`slider__image ${
-                  activeImageIndex === index ? "slider__image_active" : ""
+                className={`${styles.slider__image} ${
+                  activeImageIndex === index
+                    ? styles["slider__image_active"]
+                    : ""
                 }`}
                 key={item}
                 src={item}
@@ -45,7 +49,7 @@ const Slider = (product: ProductItem) => {
         : ""}
       <svg
         onClick={() => handleSetActiveImage(-1)}
-        className="slider__icon slider__icon-left"
+        className={`${styles.slider__icon} ${styles["slider__icon-left"]}`}
         viewBox="0 0 13 24"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -53,7 +57,7 @@ const Slider = (product: ProductItem) => {
       </svg>
       <svg
         onClick={() => handleSetActiveImage(1)}
-        className="slider__icon slider__icon-right"
+        className={`${styles.slider__icon} ${styles["slider__icon-right"]}`}
         viewBox="0 0 13 24"
         xmlns="http://www.w3.org/2000/svg"
       >

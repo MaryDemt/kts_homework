@@ -1,3 +1,4 @@
+import "@styles/styles.scss";
 import Header from "@components/Header";
 import Product from "@pages/Product";
 import Products from "@pages/Products";

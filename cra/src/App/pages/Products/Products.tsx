@@ -6,10 +6,7 @@ import CardItem from "@pages/Products/components/Card";
 import axios, { AxiosResponse } from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import CardItem from "./components/Card";
-import "./Products.scss";
-import { FilterIcon } from "../../components/icons/filter_icon";
-import { SearchIcon } from "../../components/icons/search_icon";
+import styles from "./Products.module.scss";
 
 export interface ProductItem {
   id: number;
@@ -32,7 +29,6 @@ const Products = () => {
   const [listOfProducts, setListOfProducts] = useState<ProductItem[]>([]);
   const [listLength, setListLength] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pagesMax, setPagesMax] = useState<number>(0);
 
   useEffect(() => {
     handleGetDataProducts();
@@ -44,7 +40,6 @@ const Products = () => {
       url: "https://api.escuelajs.co/api/v1/products",
     });
     setListLength(responseData.data.length);
-    setPagesMax(Math.floor(responseData.data.length / 12));
     setListOfProducts(responseData.data.slice(0, 12));
   };
 
@@ -61,26 +56,32 @@ const Products = () => {
 
   return (
     <>
-      <h1 className="products__title">Products</h1>
-      <p className="products__description">
+      <h1 className={styles.products__title}>Products</h1>
+      <p className={styles.products__description}>
         We display products based on the latest products we have, if you want to
         see our old products please enter the name of the item
       </p>
-      <div className="products__search">
-        <label className="products__label">
+      <div className={styles.products__search}>
+        <label className={styles.products__label}>
           <SearchIcon />
-          <input className="products__input" placeholder="Search property" />
-          <button className="products__search-button">Find Now</button>
+          <input
+            className={styles.products__input}
+            placeholder="Search property"
+          />
+          <button className={styles["products__search-button"]}>
+            Find Now
+          </button>
         </label>
-        <button className="products__button">
+        <button className={styles.products__button}>
           <FilterIcon />
           Filter
         </button>
       </div>
-      <h2 className="products__subtitle">
-        Total Product <span className="products__length">{listLength}</span>
+      <h2 className={styles.products__subtitle}>
+        Total Product{" "}
+        <span className={styles.products__length}>{listLength}</span>
       </h2>
-      <ul className="products__list">
+      <ul className={styles.products__list}>
         {listOfProducts.length
           ? listOfProducts.map((it, index) => {
               return <CardItem key={it.id + index} {...it} />;
