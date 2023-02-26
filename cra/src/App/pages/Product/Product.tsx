@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 
+import Card from "@pages/Product/components/Card";
+import CardItem from "@pages/Products/components/Card/Card";
+import { ProductItem } from "@pages/Products/Products";
 import axios, { AxiosResponse } from "axios";
 import { useParams } from "react-router-dom";
-
-import Card from "./components/Card/Card";
-import CardItem from "../Products/components/Card/Card";
-import { ProductItem } from "../Products/Products";
-
-import "./Product.scss";
 
 const Product = () => {
   const [product, setProduct] = useState<ProductItem>();

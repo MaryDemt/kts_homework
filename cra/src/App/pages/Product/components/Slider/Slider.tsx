@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { ProductItem } from "src/App/pages/Products/Products";
-import "./Slider.scss";
+import { ProductItem } from "@pages/Products/Products";
+
 
 const Slider = (product: ProductItem) => {
   const [listOfImages, setListOfImages] = useState<string[]>();

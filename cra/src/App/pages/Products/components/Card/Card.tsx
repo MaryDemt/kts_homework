@@ -1,3 +1,4 @@
+import { ProductItem } from "@pages/Products/Products";
 import { useNavigate } from "react-router-dom";
 
 import { ProductItem } from "../../../Products/Products";

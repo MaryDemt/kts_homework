@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 
+import { FilterIcon } from "@components/icons/filter_icon";
+import { SearchIcon } from "@components/icons/search_icon";
+import CardItem from "@pages/Products/components/Card";
 import axios, { AxiosResponse } from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 

@@ -1,5 +1,5 @@
-import { ProductItem } from "../../../Products/Products";
-import Slider from "../Slider/Slider";
+import Slider from "@pages/Product/components/Slider/Slider";
+import { ProductItem } from "@pages/Products/Products";
 
 import "./Card.scss";
 

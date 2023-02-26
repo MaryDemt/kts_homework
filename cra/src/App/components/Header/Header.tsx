@@ -1,7 +1,7 @@
-import { BagIcon } from "../icons/bag-2";
-import { MainLogo } from "../icons/header_logo";
-import { UserIcon } from "../icons/user";
-import "./Header.scss";
+import styles from "@components/Header/Header.module.scss";
+import { BagIcon } from "@components/icons/bag-2";
+import { MainLogo } from "@components/icons/header_logo";
+import { UserIcon } from "@components/icons/user";
 
 const Header = () => {
   return (
