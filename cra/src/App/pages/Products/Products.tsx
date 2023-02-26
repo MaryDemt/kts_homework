@@ -82,8 +82,8 @@ const Products = () => {
       </h2>
       <ul className="products__list">
         {listOfProducts.length
-          ? listOfProducts.map((it) => {
-              return <CardItem {...it} />;
+          ? listOfProducts.map((it, index) => {
+              return <CardItem key={it.id + index} {...it} />;
             })
           : ""}
       </ul>

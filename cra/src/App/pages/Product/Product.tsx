@@ -16,12 +16,14 @@ const Product = () => {
 
   useEffect(() => {
     handleGetDataProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (categoryId) {
       handleGetDataSimilarProduct();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId]);
 
   const handleGetDataProduct = async () => {
@@ -49,7 +51,7 @@ const Product = () => {
         <ul className="product__related-list">
           {listOfSimilarProducts.length
             ? listOfSimilarProducts.map((product) => {
-                return <CardItem {...product} />;
+                return <CardItem key={product.id} {...product} />;
               })
             : ""}
         </ul>
