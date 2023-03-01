@@ -7,11 +7,7 @@
         grid-template-columns: repeat(3, 1fr);
     }
     &__title {
-        font-family: 'Eudoxus Sans';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 82px;
-        line-height: 130%;
+        @include fontStyle(700, 82px, 130%);
         text-align: center;
         color: $main-black;
         margin: 133px 1.6vw 25px 0;
@@ -19,36 +15,23 @@
     }
     &__subtitle {
         margin: 30px 6.7vw;
-        font-size: 59px;
-        font-family: 'Eudoxus Sans';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 57px;
-        line-height: 130%;
+        @include fontStyle(700, 57px, 130%);
     }
     &__description {
         word-spacing: 1px;
-        font-family: 'Eudoxus Sans';
-        font-style: normal;
-        font-weight: 500;
-        font-size: 23px;
-        line-height: 180%;
+        @include fontStyle(500, 23px, 180%);
         text-align: center;
         color: $text-grey;
         margin: 0 30vw 0 28.4vw;
     }
     &__search {
         margin: 110px 8.5vw 65px 6.8vw;
-        font-family: 'Eudoxus Sans';
-        font-style: normal;
         display: flex;
         &-button {
+            @include fontStyle(700, 23px, 130%);
             background: $main-green;
             padding: 20px 1.9vw;
             color: $main-white;
-            font-weight: 700;
-            font-size: 23px;
-            line-height: 130%;
             margin: -5px 0.2vw 0 auto;
         }
     }
@@ -67,29 +50,19 @@
     &__input {
         padding-top: 3px;
         &::placeholder {
-            font-family: 'Eudoxus Sans';
-            font-style: normal;
-            font-weight: 500;
-            font-size: 23px;
-            line-height: 180%;
+            @include fontStyle(500, 23px, 180%);
         }
     }
     &__button {
         background: $main-white;
         @include box-shadow();
-        font-size: 24px;
-        line-height: 180%;
-        font-weight: 500;
         color: $main-black;
         padding: 26px 3.4vw;
         display: flex;
+        @include fontStyle(500, 24px, 180%);
     }
     &__length {
-        font-family: 'Eudoxus Sans';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 16px;
-        line-height: 130%;
+        @include fontStyle(700, 16px, 130%);
         padding: 10px 16px;
         background: $secondary-grey;
         color: $main-green;

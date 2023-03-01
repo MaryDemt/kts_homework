@@ -4,11 +4,7 @@
     &__related {
         padding: 0 6.8vw;
         &-title {
-            font-family: 'Eudoxus Sans';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 42px;
-            line-height: 130%;
+            @include fontStyle(7--, 42px, 130%);
             letter-spacing: 0.01em;
             color: $main-black;
             margin-bottom: 38px;

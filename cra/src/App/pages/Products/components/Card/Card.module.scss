@@ -1,8 +1,7 @@
 @import '@styles/constants';
 
 .card {
-    font-family: 'Eudoxus Sans';
-    font-style: normal;
+    @include fontStyle(700, 20px, 130%);
     display: flex;
     flex-direction: column;
     cursor:pointer;
@@ -13,16 +12,11 @@
         height: calc(100vw / 4.1);
     }
     &__category {
-        font-weight: 700;
-        font-size: 20px;
-        line-height: 130%;
         margin-top: 38px;
         color: $text-grey;
     }
     &__title {
-        font-weight: 700;
         font-size: 30px;
-        line-height: 130%;
         letter-spacing: 0.01em;
         color: $main-black;
         margin-top: 23px;
@@ -35,9 +29,7 @@
         margin: 13px 0 26px;
     }
     &__price {
-        font-weight: 700;
         font-size: 31px;
-        line-height: 130%;
         color: $main-black;
         margin-top: auto;
     }
