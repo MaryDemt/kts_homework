@@ -1,7 +1,7 @@
-import Slider from "@pages/Product/components/Slider/Slider";
-import { ProductItem } from "@pages/Products/Products";
+import ProductItem from "@components/ProductType";
 
 import styles from "./Card.module.scss";
+import Slider from "../Slider";
 
 const Card = (product: ProductItem) => {
   return (
@@ -17,7 +17,7 @@ const Card = (product: ProductItem) => {
           <button className={styles["product-card__button"]}>Buy Now</button>
           <button
             className={`
-              ${styles["product-card__button"]} ${styles["product-card__button-outline"]}
+              ${styles["product-card__button"]} ${styles["product-card__button_outline"]}
             `}
           >
             Add to Cart

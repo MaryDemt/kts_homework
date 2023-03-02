@@ -16,15 +16,11 @@
         @include iconSize(30px, 30px);
         fill: none;
         stroke:$main-white;
-        stroke-width:3;
-        stroke-miterlimit:10;
-        stroke-linecap: round;
-        stroke-linejoin: round;
         padding: 28px 27px;
         border-radius: 50%;
         background-color: $secondary-black;
         opacity: 0.6;
-        @include box-shadow();
+        @include box-shadow;
         &:hover {
             opacity: 1;
         }

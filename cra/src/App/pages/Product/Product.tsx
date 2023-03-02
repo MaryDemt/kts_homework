@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 
-import Card from "@pages/Product/components/Card";
-import styles from "@pages/Product/Product.module.scss";
-import CardItem from "@pages/Products/components/Card/Card";
-import { ProductItem } from "@pages/Products/Products";
+import ProductItem from "@components/ProductType";
+import { baseUrl, GET_CATEGORIES, GET_PRODUCTS } from "@config/const";
+import CardItem from "@pages/Products/Card";
 import axios, { AxiosResponse } from "axios";
 import { useParams } from "react-router-dom";
+
+import Card from "./Card";
+import styles from "./Product.module.scss";
 
 const Product = () => {
   const [product, setProduct] = useState<ProductItem>();
@@ -30,7 +32,7 @@ const Product = () => {
   const handleGetDataProduct = async () => {
     let responseData: AxiosResponse = await axios({
       method: "get",
-      url: `https://api.escuelajs.co/api/v1/products/${id}`,
+      url: `${baseUrl}${GET_PRODUCTS}${id}/`,
     });
     setProduct(responseData.data);
     setCategoryId(responseData.data.category.id);
@@ -39,22 +41,20 @@ const Product = () => {
   const handleGetDataSimilarProduct = async () => {
     let responseData: AxiosResponse = await axios({
       method: "get",
-      url: `https://api.escuelajs.co/api/v1/categories/${categoryId}/products`,
+      url: `${baseUrl}${GET_CATEGORIES}${categoryId}/${GET_PRODUCTS}`,
     });
     setListOfSimilarProducts(responseData.data.slice(0, 3));
   };
-
   return product && Object.keys(product).length ? (
     <>
       <Card {...product} />
       <section className={styles.product__related}>
         <h2 className={styles["product__related-title"]}>Related Items</h2>
         <ul className={styles["product__related-list"]}>
-          {listOfSimilarProducts.length
-            ? listOfSimilarProducts.map((product) => {
-                return <CardItem key={product.id} {...product} />;
-              })
-            : ""}
+          {listOfSimilarProducts.length &&
+            listOfSimilarProducts.map((product) => {
+              return <CardItem key={product.id} {...product} />;
+            })}
         </ul>
       </section>
     </>

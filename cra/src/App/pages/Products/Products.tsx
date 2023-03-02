@@ -2,28 +2,13 @@ import { useEffect, useState } from "react";
 
 import { FilterIcon } from "@components/icons/filter_icon";
 import { SearchIcon } from "@components/icons/search_icon";
-import CardItem from "@pages/Products/components/Card";
+import ProductItem from "@components/ProductType";
+import { baseUrl, GET_PRODUCTS } from "@config/const";
 import axios, { AxiosResponse } from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 
+import CardItem from "./Card";
 import styles from "./Products.module.scss";
-
-export interface ProductItem {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  images: string[];
-  creationAt: string;
-  updatedAt: string;
-  category: {
-    id: number;
-    name: string;
-    image: string;
-    creationAt: string;
-    updatedAt: string;
-  };
-}
 
 const Products = () => {
   const [listOfProducts, setListOfProducts] = useState<ProductItem[]>([]);
@@ -37,7 +22,7 @@ const Products = () => {
   const handleGetDataProducts = async () => {
     let responseData: AxiosResponse = await axios({
       method: "get",
-      url: "https://api.escuelajs.co/api/v1/products",
+      url: `${baseUrl}${GET_PRODUCTS}`,
     });
     setListLength(responseData.data.length);
     setListOfProducts(responseData.data.slice(0, 12));
@@ -46,9 +31,7 @@ const Products = () => {
   const handleAddNewProducts = async () => {
     let responseData: any = await axios({
       method: "get",
-      url: `https://api.escuelajs.co/api/v1/products?offset=${
-        currentPage + 1
-      }&limit=12`,
+      url: `${baseUrl}${GET_PRODUCTS}?offset=${currentPage + 1}&limit=12`,
     });
     setListOfProducts((prev) => [...prev, ...responseData.data]);
     setCurrentPage((prev) => prev + 1);

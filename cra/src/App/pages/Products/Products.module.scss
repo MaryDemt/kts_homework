@@ -37,7 +37,7 @@
     }
     &__label {
         background: $main-white;
-        @include box-shadow();
+        @include box-shadow;
         position: relative;
         display: flex;
         align-items: center;
@@ -55,7 +55,7 @@
     }
     &__button {
         background: $main-white;
-        @include box-shadow();
+        @include box-shadow;
         color: $main-black;
         padding: 26px 3.4vw;
         display: flex;

@@ -1,20 +1,11 @@
-import { ProductItem } from "@pages/Products/Products";
-import { useNavigate } from "react-router-dom";
+import ProductItem from "@components/ProductType";
+import { Link } from "react-router-dom";
 
 import styles from "./Card.module.scss";
 
 const CardItem = (item: ProductItem) => {
-  const navigate = useNavigate();
-
-  const handleClick = (id: number) => {
-    navigate(`/${id}`);
-  };
   return (
-    <li
-      key={item.id}
-      className={styles.card}
-      onClick={() => handleClick(item.id)}
-    >
+    <article key={item.id} className={styles.card}>
       <img
         className={styles.card__image}
         src={item.images && item.images.length ? item.images[0] : ""}
@@ -23,10 +14,12 @@ const CardItem = (item: ProductItem) => {
       <p className={styles.card__category}>
         {item.category && item.category.name ? item.category.name : ""}
       </p>
-      <h2 className={styles.card__title}>{item.title}</h2>
+      <Link to={`/${item.id}`} className={styles.card__title}>
+        {item.title}
+      </Link>
       <p className={styles.card__description}>{item.description}</p>
       <p className={styles.card__price}>${item.price}</p>
-    </li>
+    </article>
   );
 };
 
