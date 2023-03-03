@@ -2,15 +2,18 @@
 
 .product {
     &__related {
-        padding: 0 6.8vw;
+        padding: 0 16% 0 17.5%;
         &-title {
-            @include fontStyle(700, 42px, 130%);
+            @include fontStyle(700, 32px, 130%);
             letter-spacing: 0.01em;
             color: $main-black;
-            margin-bottom: 38px;
+            margin-bottom: 30px;
         }
         &-list {
             display: flex;
         }
+    }
+    &__loader {
+        margin: 30vh 50%;
     }
 }

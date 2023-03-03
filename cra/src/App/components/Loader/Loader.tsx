@@ -17,8 +17,8 @@ const Loader: React.FC<LoaderProps> = (props) => {
     <div
       className={`${styles.loader} ${
         props.size && styles[`loader_${props.size}`]
-      }`}
-      {...props}
+      }
+      ${props.className && props.className}`}
     ></div>
   ) : (
     <></>

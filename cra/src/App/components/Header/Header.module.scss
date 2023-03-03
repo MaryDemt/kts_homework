@@ -4,17 +4,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 27px 6.8vw;
+    padding: 10px 16% 10px 17.5%;
     color: $main-black;
     border-bottom: 2px solid $main-grey;
     @include fontStyle(500, 18px, 180%);
     &__tabs {
         display: flex;
-        margin-left: 1vw;
+        margin-left: 12px;
     }
     &__item {
-        font-size: 24px;
-        margin-right: 4vw;
+        font-size: 18px;
+        margin-right: 60px;
         color:$main-black;
         &_active {
             color: $main-green;
@@ -25,7 +25,7 @@
                 position: absolute;
                 width: 100%;
                 left: 0;
-                bottom: -64px;
+                bottom: -45px;
             }
         }
     }

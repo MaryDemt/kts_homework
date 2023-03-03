@@ -2,10 +2,10 @@
 
 .slider {
     position: relative;
-    margin-right: 3.4vw;
+    margin-right: 2.5vw;
     &__image {
-        width: 41.1vw;
-        height: 41.1vw;
+        width: 31.2vw;
+        height: 31.2vw;
         display: none;
         &_active{
             display: block;
@@ -13,10 +13,10 @@
     }
     &__icon {
         position: absolute;
-        @include iconSize(30px, 30px);
+        @include iconSize(28px, 28px);
         fill: none;
         stroke:$main-white;
-        padding: 28px 27px;
+        padding: 17px;
         border-radius: 50%;
         background-color: $secondary-black;
         opacity: 0.6;
@@ -25,12 +25,12 @@
             opacity: 1;
         }
         &-right {
-            right: 33px;
+            right: 24px;
             top: 50%;
             transform: translateY(-50%);
         }
         &-left {
-            left: 33px;
+            left: 24px;
             top: 50%;
             transform: translateY(-50%) rotate(180deg);
         }

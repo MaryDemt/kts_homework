@@ -1,36 +1,40 @@
 @import '@styles/constants';
 
 .product-card {
-    @include fontStyle(700, 59px, 130%);
+    @include fontStyle(700, 44px, 130%);
     display: flex;
-    padding: 140px 6.8vw 65px;
+    padding: 98px 17.5% 52px;
     &__title {
-        margin: 42px 0 27px;
+        margin: 32px 0 20px;
     }
     &__description {
         font-weight: 500;
-        font-size: 23px;
+        font-size: 18px;
         line-height: 180%;
+        color: $text-grey;
     }
     &__price {
-        margin: 169px 0 64px;
+        margin: 128px 0 48px;
     }
     &__button {
         &-group {
             display: flex;
         }
-        font-size: 24px;
+        font-size: 18px;
         background-color: $main-green;
         color: $main-white;
         border: none;
         width: max-content;
-        padding: 20px 7vw 20px;
+        padding: 0 5.6vw;
+        &:hover {
+            opacity: 0.7;
+        }
         &_outline {
             color: $secondary-black;
             background-color: $main-white;
             border: 2px solid $main-grey;
-            margin-left: 1.5vw;
-            padding: 20px 6.2vw 20px;
+            margin-left: 1vw;
+            padding: 0 4.7vw;
         }
     }
 }

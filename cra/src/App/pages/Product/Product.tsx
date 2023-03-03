@@ -64,7 +64,11 @@ const Product = () => {
       </section>
     </>
   ) : (
-    <Loader size={LoaderSize.m} loading={loading} />
+    <Loader
+      size={LoaderSize.m}
+      loading={loading}
+      className={styles.product__loader}
+    />
   );
 };
 

@@ -73,7 +73,7 @@ const Products = () => {
       <ul className={styles.products__list}>
         {listOfProducts.length ? (
           listOfProducts.map((it, index) => {
-            return <CardItem key={it.id + index} {...it} />;
+            return <CardItem key={index + it.price + it.title} {...it} />;
           })
         ) : (
           <Loader size={LoaderSize.m} loading={loading} />

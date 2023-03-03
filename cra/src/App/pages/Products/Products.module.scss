@@ -2,38 +2,40 @@
 
 .products {    
     &__list {
-        padding: 34px 6.8vw;
+        padding: 34px 17.5%;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         position: relative;
     }
     &__title {
-        @include fontStyle(700, 82px, 130%);
+        @include fontStyle(700, 64px, 130%);
         text-align: center;
         color: $main-black;
-        margin: 133px 1.6vw 25px 0;
-        padding: 0 6.8vw;
+        margin: 100px 0 20px;
     }
     &__subtitle {
-        margin: 30px 6.7vw;
-        @include fontStyle(700, 57px, 130%);
+        margin: 16px 17.5%;
+        @include fontStyle(700, 44px, 130%);
     }
     &__description {
         word-spacing: 1px;
-        @include fontStyle(500, 23px, 180%);
+        @include fontStyle(500, 18px, 180%);
         text-align: center;
         color: $text-grey;
-        margin: 0 30vw 0 28.4vw;
+        margin: 0 33.3vw;
     }
     &__search {
-        margin: 110px 8.5vw 65px 6.8vw;
+        margin: 77px 17.5% 51px;
         display: flex;
         &-button {
-            @include fontStyle(700, 23px, 130%);
+            @include fontStyle(700, 18px, 130%);
             background: $main-green;
-            padding: 20px 1.9vw;
-            color: $main-white;
-            margin: -5px 0.2vw 0 auto;
+            padding: 15px 30px;
+            color: white;
+            margin: 0 0 0 auto;
+            &:hover {
+                opacity: 0.7;
+            }
         }
     }
     &__label {
@@ -44,23 +46,32 @@
         align-items: center;
         flex-direction: row;
         width: 100%;
-        margin-right: 2.1vw;
-        padding: 19px 1.7vw;
-
+        margin-right: 1.5vw;
+        padding: 9px 1.4vw;
+        &:focus-within {
+            background: #FFFFFF;
+            border: 1px solid #518581;
+            box-shadow: 0px 4px 120px rgba(175, 173, 181, 0.15);
+            color: rgba(21, 20, 17, 1);
+        }
     }
     &__input {
         padding-top: 3px;
+        @include fontStyle(500, 18px, 180%);
         &::placeholder {
-            @include fontStyle(500, 23px, 180%);
+            @include fontStyle(500, 18px, 180%);
         }
     }
     &__button {
         background: $main-white;
         @include box-shadow;
         color: $main-black;
-        padding: 26px 3.4vw;
+        padding: 26px 51px;
         display: flex;
-        @include fontStyle(500, 24px, 180%);
+        @include fontStyle(500, 18px, 180%);
+        &:hover {
+            opacity: 0.7;
+        }
     }
     &__length {
         @include fontStyle(700, 16px, 130%);
@@ -69,5 +80,6 @@
         color: $main-green;
         border-radius: 20px;
         vertical-align: super;
+        margin: 10px;
     }
 }

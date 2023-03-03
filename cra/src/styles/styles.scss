@@ -10,18 +10,18 @@ html, body {
 }
 
 .icon {
-    @include iconSize(40px, 40px);
-    margin-right: 1.6vw;
+    @include iconSize(30px, 30px);
+    margin-right: 1.3vw;
     margin-top: 10px;
     &__main {
-        @include iconSize(8.8vw, 100px);
+        @include iconSize(130px, 100px);
     }
     &__filter {
         margin-right: 0.8vw;
         margin-top: 3px;
     }
     &__search {
-        margin-right: 1.3vw;
+        margin-right: 1vw;
         margin-top: 0px;
     }
 }
