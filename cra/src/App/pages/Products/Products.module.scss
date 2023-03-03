@@ -5,6 +5,7 @@
         padding: 34px 6.8vw;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
+        position: relative;
     }
     &__title {
         @include fontStyle(700, 82px, 130%);

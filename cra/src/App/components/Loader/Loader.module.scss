@@ -1,0 +1,53 @@
+@import '@styles/constants';
+
+.loader {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    margin: 0 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    border: 4px solid $main-green;
+    animation: loaderRotate 30 .8s linear;
+    &::after {
+        content: " ";
+        background-color: white;
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        z-index: 5;
+        bottom: -7px;
+        right: -7px;
+    }
+    &_l {
+        width: 60px;
+        height: 60px;
+        border: 8px solid $main-green;
+        &::after {
+            width: 35px;
+            height: 35px;
+            right: -10px;
+        }
+    }
+    &_m {
+        width: 40px;
+        height: 40px;
+        border: 6px solid $main-green;
+        &::after {
+            width: 25px;
+            height: 25px;
+        }
+    }
+}
+
+@keyframes loaderRotate {
+    0% {
+        transform: rotate(0);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

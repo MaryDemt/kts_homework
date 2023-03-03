@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 import { FilterIcon } from "@components/icons/filter_icon";
 import { SearchIcon } from "@components/icons/search_icon";
+import Loader from "@components/Loader";
+import { LoaderSize } from "@components/Loader/Loader";
 import ProductItem from "@components/ProductType";
 import { baseUrl, GET_PRODUCTS } from "@config/const";
 import axios, { AxiosResponse } from "axios";
@@ -14,6 +16,7 @@ const Products = () => {
   const [listOfProducts, setListOfProducts] = useState<ProductItem[]>([]);
   const [listLength, setListLength] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     handleGetDataProducts();
@@ -24,17 +27,20 @@ const Products = () => {
       method: "get",
       url: `${baseUrl}${GET_PRODUCTS}`,
     });
+    setLoading(false);
     setListLength(responseData.data.length);
     setListOfProducts(responseData.data.slice(0, 12));
   };
 
   const handleAddNewProducts = async () => {
+    setLoading(true);
     let responseData: any = await axios({
       method: "get",
       url: `${baseUrl}${GET_PRODUCTS}?offset=${currentPage + 1}&limit=12`,
     });
     setListOfProducts((prev) => [...prev, ...responseData.data]);
     setCurrentPage((prev) => prev + 1);
+    setLoading(false);
   };
 
   return (
@@ -65,11 +71,13 @@ const Products = () => {
         <span className={styles.products__length}>{listLength}</span>
       </h2>
       <ul className={styles.products__list}>
-        {listOfProducts.length
-          ? listOfProducts.map((it, index) => {
-              return <CardItem key={it.id + index} {...it} />;
-            })
-          : ""}
+        {listOfProducts.length ? (
+          listOfProducts.map((it, index) => {
+            return <CardItem key={it.id + index} {...it} />;
+          })
+        ) : (
+          <Loader size={LoaderSize.m} loading={loading} />
+        )}
       </ul>
       <InfiniteScroll
         dataLength={listOfProducts.length}
@@ -77,9 +85,7 @@ const Products = () => {
         hasMore={true}
         loader={<h4>Loading...</h4>}
       >
-        {listOfProducts.map((i, index) => (
-          <div key={index}>div - #{index}</div>
-        ))}
+        <Loader size={LoaderSize.s} loading={false} />
       </InfiniteScroll>
     </>
   );

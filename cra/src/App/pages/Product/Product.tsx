@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import Loader from "@components/Loader";
+import { LoaderSize } from "@components/Loader/Loader";
 import ProductItem from "@components/ProductType";
 import { baseUrl, GET_CATEGORIES, GET_PRODUCTS } from "@config/const";
 import CardItem from "@pages/Products/Card";
@@ -12,6 +14,7 @@ import styles from "./Product.module.scss";
 const Product = () => {
   const [product, setProduct] = useState<ProductItem>();
   const [categoryId, setCategoryId] = useState<number>();
+  const [loading, setLoading] = useState(true);
   const [listOfSimilarProducts, setListOfSimilarProducts] = useState<
     ProductItem[]
   >([]);
@@ -34,6 +37,7 @@ const Product = () => {
       method: "get",
       url: `${baseUrl}${GET_PRODUCTS}${id}/`,
     });
+    setLoading(false);
     setProduct(responseData.data);
     setCategoryId(responseData.data.category.id);
   };
@@ -44,6 +48,7 @@ const Product = () => {
       url: `${baseUrl}${GET_CATEGORIES}${categoryId}/${GET_PRODUCTS}`,
     });
     setListOfSimilarProducts(responseData.data.slice(0, 3));
+    setLoading(false);
   };
   return product && Object.keys(product).length ? (
     <>
@@ -59,7 +64,7 @@ const Product = () => {
       </section>
     </>
   ) : (
-    <></>
+    <Loader size={LoaderSize.m} loading={loading} />
   );
 };
 
