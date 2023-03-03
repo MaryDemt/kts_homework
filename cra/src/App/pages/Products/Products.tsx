@@ -8,6 +8,7 @@ import ProductItem from "@components/ProductType";
 import { baseUrl, GET_PRODUCTS } from "@config/const";
 import axios, { AxiosResponse } from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import CardItem from "./Card";
 import styles from "./Products.module.scss";
@@ -16,16 +17,33 @@ const Products = () => {
   const [listOfProducts, setListOfProducts] = useState<ProductItem[]>([]);
   const [listLength, setListLength] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [searchParams, setSearchParams] = useState<string>("");
   const [loading, setLoading] = useState(true);
+  const [filterParams] = useSearchParams();
+  const searchTitle = filterParams.get("title");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    handleGetDataProducts();
-  }, []);
+    if (searchTitle) {
+      handleGetDataProducts(searchTitle);
+    } else {
+      handleGetDataProducts();
+    }
+  }, [searchTitle]);
 
-  const handleGetDataProducts = async () => {
+  useEffect(() => {
+    if (searchParams.trim().length > 2) {
+      handleSearchItem();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
+  const handleGetDataProducts = async (filterParameters = "") => {
     let responseData: AxiosResponse = await axios({
       method: "get",
-      url: `${baseUrl}${GET_PRODUCTS}`,
+      url: `${baseUrl}${GET_PRODUCTS}${
+        filterParameters && `?title=${filterParameters}`
+      }`,
     });
     setLoading(false);
     setListLength(responseData.data.length);
@@ -33,13 +51,35 @@ const Products = () => {
   };
 
   const handleAddNewProducts = async () => {
+    if (listLength > 12 && Math.ceil(listLength / 12) !== currentPage) {
+      let url = "";
+      if (!filterParams) {
+        url = `${baseUrl}${GET_PRODUCTS}?offset=${currentPage + 1}&limit=12`;
+      } else {
+        url = `${baseUrl}${GET_PRODUCTS}?offset=${
+          currentPage + 1
+        }&limit=12&title=${searchTitle}`;
+      }
+      setLoading(true);
+      let responseData: any = await axios({
+        method: "get",
+        url,
+      });
+      setListOfProducts((prev) => [...prev, ...responseData.data]);
+      setCurrentPage((prev) => prev + 1);
+      setLoading(false);
+    }
+  };
+
+  const handleSearchItem = async () => {
     setLoading(true);
     let responseData: any = await axios({
       method: "get",
-      url: `${baseUrl}${GET_PRODUCTS}?offset=${currentPage + 1}&limit=12`,
+      url: `${baseUrl}${GET_PRODUCTS}?title=${searchParams}`,
     });
-    setListOfProducts((prev) => [...prev, ...responseData.data]);
-    setCurrentPage((prev) => prev + 1);
+    setListLength(responseData.data.length);
+    setListOfProducts(responseData.data.slice(0, 12));
+    navigate(`/?title=${searchParams}`);
     setLoading(false);
   };
 
@@ -56,6 +96,8 @@ const Products = () => {
           <input
             className={styles.products__input}
             placeholder="Search property"
+            value={searchParams}
+            onChange={(e) => setSearchParams(e.target.value)}
           />
           <button className={styles["products__search-button"]}>
             Find Now
@@ -83,7 +125,7 @@ const Products = () => {
         dataLength={listOfProducts.length}
         next={handleAddNewProducts}
         hasMore={true}
-        loader={<h4>Loading...</h4>}
+        loader={<Loader size={LoaderSize.s} loading={false} />}
       >
         <Loader size={LoaderSize.s} loading={false} />
       </InfiniteScroll>
