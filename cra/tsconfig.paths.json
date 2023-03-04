@@ -5,7 +5,8 @@
       "@components/*": ["./src/App/components/*"],
       "@pages/*": ["./src/App/pages/*"],
       "@styles/*": ["./src/styles/*"],
-      "@config/*": ["./src/config/*"]
+      "@config/*": ["./src/config/*"],
+      "@store/*": ["./src/store/*"]
     }
   }
 }
