@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import Loader from "@components/Loader";
 import { LoaderSize } from "@components/Loader/Loader";
 import ProductItem from "@components/ProductType";
-import { baseUrl, GET_CATEGORIES, GET_PRODUCTS } from "@config/const";
 import CardItem from "@pages/Products/Card";
-import axios, { AxiosResponse } from "axios";
+import ProductStore from "@src/store/ProductStore";
+import { useLocalStore } from "@utils/useLocalStore";
 import { useParams } from "react-router-dom";
 
 import Card from "./Card";
@@ -18,6 +18,7 @@ const Product = () => {
   const [listOfSimilarProducts, setListOfSimilarProducts] = useState<
     ProductItem[]
   >([]);
+  const productStore = useLocalStore(() => new ProductStore());
   const { id } = useParams();
 
   useEffect(() => {
@@ -33,20 +34,14 @@ const Product = () => {
   }, [categoryId]);
 
   const handleGetDataProduct = async () => {
-    let responseData: AxiosResponse = await axios({
-      method: "get",
-      url: `${baseUrl}${GET_PRODUCTS}${id}/`,
-    });
+    let responseData = await productStore.getProductData(id);
     setLoading(false);
     setProduct(responseData.data);
     setCategoryId(responseData.data.category.id);
   };
 
   const handleGetDataSimilarProduct = async () => {
-    let responseData: AxiosResponse = await axios({
-      method: "get",
-      url: `${baseUrl}${GET_CATEGORIES}${categoryId}/${GET_PRODUCTS}`,
-    });
+    let responseData = await productStore.getSimilarProductData(categoryId);
     setListOfSimilarProducts(responseData.data.slice(0, 3));
     setLoading(false);
   };

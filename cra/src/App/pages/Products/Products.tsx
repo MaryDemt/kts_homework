@@ -6,37 +6,14 @@ import Loader from "@components/Loader";
 import { LoaderSize } from "@components/Loader/Loader";
 import ProductItem from "@components/ProductType";
 import { baseUrl, GET_PRODUCTS } from "@config/const";
-import axios, { AxiosResponse } from "axios";
+import ProductsStore from "@store/ProductsStore";
+import { useLocalStore } from "@utils/useLocalStore";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import CardItem from "./Card";
 import CategoriesDropDown from "./CategoriesDropDown";
 import styles from "./Products.module.scss";
-
-const makeFiltersUrl = (
-  title: string | null,
-  categoryId: string | null,
-  offset: string | null,
-  limit: string | null
-) => {
-  let result: string = "";
-  if (title) {
-    result += `?title=${title}`;
-  }
-  if (categoryId) {
-    result += result.length
-      ? `&categoryId=${categoryId}`
-      : `?categoryId=${categoryId}`;
-  }
-  if (offset) {
-    result += result.length ? `&offset=${offset}` : `?offset=${offset}`;
-  }
-  if (limit) {
-    result += result.length ? `&limit=${limit}` : `?limit=${limit}`;
-  }
-  return result;
-};
 
 const Products = () => {
   const [filterParams] = useSearchParams();
@@ -50,6 +27,7 @@ const Products = () => {
   const [searchParams, setSearchParams] = useState<string>("");
   const [filterListIsOpen, setFilterListIsOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const productsStore = useLocalStore(() => new ProductsStore());
 
   const navigate = useNavigate();
 
@@ -59,16 +37,13 @@ const Products = () => {
   }, [searchTitle]);
 
   const handleGetDataProducts = async (filterParameters = "") => {
-    const preparedUrl = makeFiltersUrl(
+    const preparedUrl = productsStore.makeFiltersUrl(
       searchTitle,
       filterParameters ? filterParameters : categoryId,
       offset,
       limit
     );
-    let responseData: AxiosResponse = await axios({
-      method: "get",
-      url: `${baseUrl}${GET_PRODUCTS}${preparedUrl}`,
-    });
+    let responseData = await productsStore.handleGetListOfProducts(preparedUrl);
     setLoading(false);
     setListLength(responseData.data.length);
     setListOfProducts(responseData.data.slice(0, 12));
@@ -78,10 +53,10 @@ const Products = () => {
   const handleAddNewProducts = async () => {
     if (listLength > 12 && Math.ceil(listLength / 12) !== currentPage) {
       let url = "";
-      if (!makeFiltersUrl(searchTitle, categoryId, offset, limit)) {
+      if (!searchTitle && !categoryId && !offset && !limit) {
         url = `${baseUrl}${GET_PRODUCTS}?offset=${currentPage + 1}&limit=12`;
       } else {
-        url = `${baseUrl}${GET_PRODUCTS}${makeFiltersUrl(
+        url = `${baseUrl}${GET_PRODUCTS}${productsStore.makeFiltersUrl(
           searchTitle,
           categoryId,
           String(currentPage + 1),
@@ -89,26 +64,30 @@ const Products = () => {
         )}`;
       }
       setLoading(true);
-      let responseData: any = await axios({
-        method: "get",
-        url,
-      });
+      let responseData = await productsStore.handleAddNewItems(url);
       setListOfProducts((prev) => [...prev, ...responseData.data]);
       setCurrentPage((prev) => prev + 1);
       setLoading(false);
       navigate(
-        makeFiltersUrl(searchTitle, categoryId, String(currentPage + 1), limit)
+        productsStore.makeFiltersUrl(
+          searchTitle,
+          categoryId,
+          String(currentPage + 1),
+          limit
+        )
       );
     }
   };
 
   const handleSearchItem = async () => {
     setLoading(true);
-    const preparedUrl = makeFiltersUrl(searchParams, categoryId, offset, limit);
-    let responseData: any = await axios({
-      method: "get",
-      url: `${baseUrl}${GET_PRODUCTS}${preparedUrl}`,
-    });
+    const preparedUrl = productsStore.makeFiltersUrl(
+      searchParams,
+      categoryId,
+      offset,
+      limit
+    );
+    let responseData = await productsStore.findSearchByTitle(preparedUrl);
     setListLength(responseData.data.length);
     setListOfProducts(responseData.data.slice(0, 12));
     navigate(`/${preparedUrl}`);
