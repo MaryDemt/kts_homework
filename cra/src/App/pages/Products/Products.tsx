@@ -11,54 +11,82 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import CardItem from "./Card";
+import CategoriesDropDown from "./CategoriesDropDown";
 import styles from "./Products.module.scss";
 
+const makeFiltersUrl = (
+  title: string | null,
+  categoryId: string | null,
+  offset: string | null,
+  limit: string | null
+) => {
+  let result: string = "";
+  if (title) {
+    result += `?title=${title}`;
+  }
+  if (categoryId) {
+    result += result.length
+      ? `&categoryId=${categoryId}`
+      : `?categoryId=${categoryId}`;
+  }
+  if (offset) {
+    result += result.length ? `&offset=${offset}` : `?offset=${offset}`;
+  }
+  if (limit) {
+    result += result.length ? `&limit=${limit}` : `?limit=${limit}`;
+  }
+  return result;
+};
+
 const Products = () => {
+  const [filterParams] = useSearchParams();
+  const searchTitle = filterParams.get("title");
+  const categoryId = filterParams.get("categoryId");
+  const offset = filterParams.get("offset");
+  const limit = filterParams.get("limit");
   const [listOfProducts, setListOfProducts] = useState<ProductItem[]>([]);
   const [listLength, setListLength] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchParams, setSearchParams] = useState<string>("");
-  const [loading, setLoading] = useState(true);
-  const [filterParams] = useSearchParams();
-  const searchTitle = filterParams.get("title");
+  const [filterListIsOpen, setFilterListIsOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (searchTitle) {
-      handleGetDataProducts(searchTitle);
-    } else {
-      handleGetDataProducts();
-    }
+    handleGetDataProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTitle]);
 
-  useEffect(() => {
-    if (searchParams.trim().length > 2) {
-      handleSearchItem();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
-
   const handleGetDataProducts = async (filterParameters = "") => {
+    const preparedUrl = makeFiltersUrl(
+      searchTitle,
+      filterParameters ? filterParameters : categoryId,
+      offset,
+      limit
+    );
     let responseData: AxiosResponse = await axios({
       method: "get",
-      url: `${baseUrl}${GET_PRODUCTS}${
-        filterParameters && `?title=${filterParameters}`
-      }`,
+      url: `${baseUrl}${GET_PRODUCTS}${preparedUrl}`,
     });
     setLoading(false);
     setListLength(responseData.data.length);
     setListOfProducts(responseData.data.slice(0, 12));
+    navigate(preparedUrl ? preparedUrl : "/");
   };
 
   const handleAddNewProducts = async () => {
     if (listLength > 12 && Math.ceil(listLength / 12) !== currentPage) {
       let url = "";
-      if (!filterParams) {
+      if (!makeFiltersUrl(searchTitle, categoryId, offset, limit)) {
         url = `${baseUrl}${GET_PRODUCTS}?offset=${currentPage + 1}&limit=12`;
       } else {
-        url = `${baseUrl}${GET_PRODUCTS}?offset=${
-          currentPage + 1
-        }&limit=12&title=${searchTitle}`;
+        url = `${baseUrl}${GET_PRODUCTS}${makeFiltersUrl(
+          searchTitle,
+          categoryId,
+          String(currentPage + 1),
+          "12"
+        )}`;
       }
       setLoading(true);
       let responseData: any = await axios({
@@ -68,18 +96,22 @@ const Products = () => {
       setListOfProducts((prev) => [...prev, ...responseData.data]);
       setCurrentPage((prev) => prev + 1);
       setLoading(false);
+      navigate(
+        makeFiltersUrl(searchTitle, categoryId, String(currentPage + 1), limit)
+      );
     }
   };
 
   const handleSearchItem = async () => {
     setLoading(true);
+    const preparedUrl = makeFiltersUrl(searchParams, categoryId, offset, limit);
     let responseData: any = await axios({
       method: "get",
-      url: `${baseUrl}${GET_PRODUCTS}?title=${searchParams}`,
+      url: `${baseUrl}${GET_PRODUCTS}${preparedUrl}`,
     });
     setListLength(responseData.data.length);
     setListOfProducts(responseData.data.slice(0, 12));
-    navigate(`/?title=${searchParams}`);
+    navigate(`/${preparedUrl}`);
     setLoading(false);
   };
 
@@ -99,15 +131,27 @@ const Products = () => {
             value={searchParams}
             onChange={(e) => setSearchParams(e.target.value)}
           />
-          <button className={styles["products__search-button"]}>
+          <button
+            className={styles["products__search-button"]}
+            onClick={handleSearchItem}
+          >
             Find Now
           </button>
         </label>
-        <button className={styles.products__button}>
+        <button
+          className={styles.products__button}
+          onClick={() => setFilterListIsOpen(!filterListIsOpen)}
+        >
           <FilterIcon />
           Filter
         </button>
       </div>
+      {filterListIsOpen && (
+        <CategoriesDropDown
+          handleGetDataProducts={handleGetDataProducts}
+          activeCategoryId={categoryId}
+        />
+      )}
       <h2 className={styles.products__subtitle}>
         Total Product{" "}
         <span className={styles.products__length}>{listLength}</span>
