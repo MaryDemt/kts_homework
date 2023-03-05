@@ -1,0 +1,33 @@
+@import '@styles/constants';
+
+.multi-dropdown {
+    background-color: initial;
+    margin: 0 17.5%;  
+    width: 370px;
+    margin-top: -40px;
+    &__header {
+      @include fontStyle(400, 18px, 180%);
+      color: $text-grey;
+      padding: 25px 0 25px 16px;
+      background-color: $main-white;
+      @include box-shadow;
+      color: $main-black;
+    }
+    &__list {
+      background-color: $main-white;
+      margin-top: 12px;
+      padding: 16px 0px 16px 15px;
+      @include box-shadow;
+    }
+    &__item {
+        @include fontStyle(400, 14px, 18px);
+        color: $main-black;
+        margin-bottom: 32px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+        &_active {
+            color: $main-green;
+        }
+      }
+  }
