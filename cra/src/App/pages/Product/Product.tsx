@@ -25,7 +25,7 @@ const Product = () => {
     productStore.getProductData(id);
   };
 
-  return productStore.product ? (
+  return productStore.product && productStore.product.title ? (
     <>
       <Card product={productStore.product} />
       <section className={styles.product__related}>

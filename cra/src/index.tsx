@@ -1,5 +1,6 @@
 import React from "react";
 
+// eslint-disable-next-line
 import { configure } from "mobx";
 import ReactDOM from "react-dom/client";
 
