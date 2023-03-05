@@ -4,10 +4,11 @@ import { FilterIcon } from "@components/icons/filter_icon";
 import { SearchIcon } from "@components/icons/search_icon";
 import Loader from "@components/Loader";
 import { LoaderSize } from "@components/Loader/Loader";
-import ProductItem from "@components/ProductType";
 import { baseUrl, GET_PRODUCTS } from "@config/const";
 import ProductsStore from "@store/ProductsStore";
+import { Meta } from "@utils/meta";
 import { useLocalStore } from "@utils/useLocalStore";
+import { observer } from "mobx-react-lite";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -15,18 +16,39 @@ import CardItem from "./Card";
 import CategoriesDropDown from "./CategoriesDropDown";
 import styles from "./Products.module.scss";
 
+const makeFiltersUrl = (
+  title: string | null,
+  categoryId: string | null,
+  offset: string | null,
+  limit: string | null
+) => {
+  let result: string = "";
+  if (title) {
+    result += `?title=${title}`;
+  }
+  if (categoryId) {
+    result += result.length
+      ? `&categoryId=${categoryId}`
+      : `?categoryId=${categoryId}`;
+  }
+  if (offset) {
+    result += result.length ? `&offset=${offset}` : `?offset=${offset}`;
+  }
+  if (limit) {
+    result += result.length ? `&limit=${limit}` : `?limit=${limit}`;
+  }
+  return result;
+};
+
 const Products = () => {
   const [filterParams] = useSearchParams();
   const searchTitle = filterParams.get("title");
   const categoryId = filterParams.get("categoryId");
   const offset = filterParams.get("offset");
   const limit = filterParams.get("limit");
-  const [listOfProducts, setListOfProducts] = useState<ProductItem[]>([]);
-  const [listLength, setListLength] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchParams, setSearchParams] = useState<string>("");
   const [filterListIsOpen, setFilterListIsOpen] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
   const productsStore = useLocalStore(() => new ProductsStore());
 
   const navigate = useNavigate();
@@ -36,62 +58,45 @@ const Products = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTitle]);
 
-  const handleGetDataProducts = async (filterParameters = "") => {
-    const preparedUrl = productsStore.makeFiltersUrl(
+  const handleGetDataProducts = (filterParameters = "") => {
+    const preparedUrl = makeFiltersUrl(
       searchTitle,
       filterParameters ? filterParameters : categoryId,
       offset,
       limit
     );
-    let responseData = await productsStore.handleGetListOfProducts(preparedUrl);
-    setLoading(false);
-    setListLength(responseData.data.length);
-    setListOfProducts(responseData.data.slice(0, 12));
+    productsStore.handleGetListOfProducts(preparedUrl);
     navigate(preparedUrl ? preparedUrl : "/");
   };
 
-  const handleAddNewProducts = async () => {
-    if (listLength > 12 && Math.ceil(listLength / 12) !== currentPage) {
+  const handleAddNewProducts = () => {
+    if (
+      productsStore.listLength > 12 &&
+      Math.ceil(productsStore.listLength / 12) !== currentPage
+    ) {
       let url = "";
       if (!searchTitle && !categoryId && !offset && !limit) {
         url = `${baseUrl}${GET_PRODUCTS}?offset=${currentPage + 1}&limit=12`;
       } else {
-        url = `${baseUrl}${GET_PRODUCTS}${productsStore.makeFiltersUrl(
+        url = `${baseUrl}${GET_PRODUCTS}${makeFiltersUrl(
           searchTitle,
           categoryId,
           String(currentPage + 1),
           "12"
         )}`;
       }
-      setLoading(true);
-      let responseData = await productsStore.handleAddNewItems(url);
-      setListOfProducts((prev) => [...prev, ...responseData.data]);
+      productsStore.handleAddNewItems(url);
       setCurrentPage((prev) => prev + 1);
-      setLoading(false);
       navigate(
-        productsStore.makeFiltersUrl(
-          searchTitle,
-          categoryId,
-          String(currentPage + 1),
-          limit
-        )
+        makeFiltersUrl(searchTitle, categoryId, String(currentPage + 1), limit)
       );
     }
   };
 
-  const handleSearchItem = async () => {
-    setLoading(true);
-    const preparedUrl = productsStore.makeFiltersUrl(
-      searchParams,
-      categoryId,
-      offset,
-      limit
-    );
-    let responseData = await productsStore.findSearchByTitle(preparedUrl);
-    setListLength(responseData.data.length);
-    setListOfProducts(responseData.data.slice(0, 12));
+  const handleSearchItem = () => {
+    const preparedUrl = makeFiltersUrl(searchParams, categoryId, "1", limit);
+    productsStore.findSearchByTitle(preparedUrl);
     navigate(`/${preparedUrl}`);
-    setLoading(false);
   };
 
   return (
@@ -133,19 +138,24 @@ const Products = () => {
       )}
       <h2 className={styles.products__subtitle}>
         Total Product{" "}
-        <span className={styles.products__length}>{listLength}</span>
+        <span className={styles.products__length}>
+          {productsStore.listLength}
+        </span>
       </h2>
       <ul className={styles.products__list}>
-        {listOfProducts.length ? (
-          listOfProducts.map((it, index) => {
+        {productsStore.list.length ? (
+          productsStore.list.map((it, index) => {
             return <CardItem key={index + it.price + it.title} {...it} />;
           })
         ) : (
-          <Loader size={LoaderSize.m} loading={loading} />
+          <Loader
+            size={LoaderSize.m}
+            loading={productsStore.meta === Meta.loading}
+          />
         )}
       </ul>
       <InfiniteScroll
-        dataLength={listOfProducts.length}
+        dataLength={productsStore.list.length}
         next={handleAddNewProducts}
         hasMore={true}
         loader={<Loader size={LoaderSize.s} loading={false} />}
@@ -156,4 +166,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default observer(Products);

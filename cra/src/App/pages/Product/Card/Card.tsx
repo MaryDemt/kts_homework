@@ -1,12 +1,10 @@
-import ProductItem from "@components/ProductType";
-
 import styles from "./Card.module.scss";
 import Slider from "../Slider";
 
-const Card = (product: ProductItem) => {
+const Card = ({ product }: any) => {
   return (
     <section className={styles["product-card"]}>
-      <Slider {...product} />
+      <Slider product={product} />
       <div className={styles["product-card__info"]}>
         <h1 className={styles["product-card__title"]}>{product.title}</h1>
         <p className={styles["product-card__description"]}>

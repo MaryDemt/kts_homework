@@ -1,53 +1,101 @@
+import ProductItem from "@components/ProductType/ProductItem";
 import { baseUrl, GET_PRODUCTS } from "@src/config/const";
+import { Meta } from "@utils/meta";
 import axios, { AxiosResponse } from "axios";
+import {
+  action,
+  computed,
+  makeObservable,
+  observable,
+  runInAction,
+} from "mobx";
+
+type PrivateFields = "_list" | "_meta" | "_listLength";
 
 export default class ProductsStore {
+  private _list: ProductItem[] = [];
+  private _meta: Meta = Meta.initial;
+  private _listLength: number = 0;
+
+  constructor() {
+    makeObservable<ProductsStore, PrivateFields>(this, {
+      _list: observable,
+      _meta: observable,
+      _listLength: observable,
+      list: computed,
+      meta: computed,
+      listLength: computed,
+      handleGetListOfProducts: action,
+      handleAddNewItems: action,
+      findSearchByTitle: action,
+    });
+  }
+
+  get list(): ProductItem[] {
+    return this._list;
+  }
+
+  get meta(): Meta {
+    return this._meta;
+  }
+
+  get listLength(): number {
+    return this._listLength;
+  }
+
   handleGetListOfProducts = async (preparedUrl: string) => {
-    let responseData: AxiosResponse = await axios({
+    this._meta = Meta.loading;
+    this._list = [];
+    this._listLength = 0;
+    let response: AxiosResponse = await axios({
       method: "get",
       url: `${baseUrl}${GET_PRODUCTS}${preparedUrl}`,
     });
-    return responseData;
+    runInAction(() => {
+      if (response.status === 200) {
+        this._meta = Meta.success;
+        this._list = response.data.slice(0, 12);
+        this._listLength = response.data.length;
+        return;
+      }
+      this._meta = Meta.error;
+      return;
+    });
   };
 
   handleAddNewItems = async (url: string) => {
-    let responseData: any = await axios({
+    this._meta = Meta.loading;
+    let response: AxiosResponse = await axios({
       method: "get",
       url,
     });
-    return responseData;
-  };
-
-  makeFiltersUrl = (
-    title: string | null,
-    categoryId: string | null,
-    offset: string | null,
-    limit: string | null
-  ) => {
-    let result: string = "";
-    if (title) {
-      result += `?title=${title}`;
-    }
-    if (categoryId) {
-      result += result.length
-        ? `&categoryId=${categoryId}`
-        : `?categoryId=${categoryId}`;
-    }
-    if (offset) {
-      result += result.length ? `&offset=${offset}` : `?offset=${offset}`;
-    }
-    if (limit) {
-      result += result.length ? `&limit=${limit}` : `?limit=${limit}`;
-    }
-    return result;
+    runInAction(() => {
+      if (response.status === 200) {
+        this._list.push(...response.data);
+        this._meta = Meta.success;
+        return;
+      }
+      this._meta = Meta.error;
+      return;
+    });
   };
 
   findSearchByTitle = async (preparedUrl: string) => {
-    let responseData: any = await axios({
+    this._meta = Meta.loading;
+    let response: AxiosResponse = await axios({
       method: "get",
       url: `${baseUrl}${GET_PRODUCTS}${preparedUrl}`,
     });
-    return responseData;
+    runInAction(() => {
+      if (response.status === 200) {
+        this._list = response.data.slice(0, 12);
+        this._meta = Meta.success;
+        this._listLength = response.data.length;
+        return;
+      }
+      this._meta = Meta.error;
+      return;
+    });
   };
   destroy(): void {}
 }

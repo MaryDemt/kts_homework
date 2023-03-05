@@ -1,23 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import Loader from "@components/Loader";
 import { LoaderSize } from "@components/Loader/Loader";
-import ProductItem from "@components/ProductType";
 import CardItem from "@pages/Products/Card";
 import ProductStore from "@src/store/ProductStore";
+import { Meta } from "@utils/meta";
 import { useLocalStore } from "@utils/useLocalStore";
+import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 
 import Card from "./Card";
 import styles from "./Product.module.scss";
 
 const Product = () => {
-  const [product, setProduct] = useState<ProductItem>();
-  const [categoryId, setCategoryId] = useState<number>();
-  const [loading, setLoading] = useState(true);
-  const [listOfSimilarProducts, setListOfSimilarProducts] = useState<
-    ProductItem[]
-  >([]);
   const productStore = useLocalStore(() => new ProductStore());
   const { id } = useParams();
 
@@ -26,33 +21,18 @@ const Product = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (categoryId) {
-      handleGetDataSimilarProduct();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoryId]);
-
   const handleGetDataProduct = async () => {
-    let responseData = await productStore.getProductData(id);
-    setLoading(false);
-    setProduct(responseData.data);
-    setCategoryId(responseData.data.category.id);
+    productStore.getProductData(id);
   };
 
-  const handleGetDataSimilarProduct = async () => {
-    let responseData = await productStore.getSimilarProductData(categoryId);
-    setListOfSimilarProducts(responseData.data.slice(0, 3));
-    setLoading(false);
-  };
-  return product && Object.keys(product).length ? (
+  return productStore.product ? (
     <>
-      <Card {...product} />
+      <Card product={productStore.product} />
       <section className={styles.product__related}>
         <h2 className={styles["product__related-title"]}>Related Items</h2>
         <ul className={styles["product__related-list"]}>
-          {listOfSimilarProducts.length &&
-            listOfSimilarProducts.map((product) => {
+          {productStore.listOfSimilarProducts.length &&
+            productStore.listOfSimilarProducts.map((product) => {
               return <CardItem key={product.id} {...product} />;
             })}
         </ul>
@@ -61,10 +41,10 @@ const Product = () => {
   ) : (
     <Loader
       size={LoaderSize.m}
-      loading={loading}
+      loading={productStore.meta === Meta.loading}
       className={styles.product__loader}
     />
   );
 };
 
-export default Product;
+export default observer(Product);

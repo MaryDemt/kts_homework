@@ -1,29 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { SliderIcon } from "@components/icons/slider_icon";
-import ProductItem from "@components/ProductType";
 
 import styles from "./Slider.module.scss";
 
-const Slider = (product: ProductItem) => {
-  const [listOfImages, setListOfImages] = useState<string[]>();
+const Slider = ({ product }: any) => {
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
-
-  useEffect(() => {
-    setListOfImages(product.images);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleSetActiveImage = (step: number) => {
     if (step > 0) {
-      if (listOfImages?.length === activeImageIndex + 1) {
+      if (product.images?.length === activeImageIndex + 1) {
         setActiveImageIndex(0);
       } else {
         setActiveImageIndex((prev) => prev + 1);
       }
     } else {
-      if (activeImageIndex === 0 && listOfImages && listOfImages.length) {
-        setActiveImageIndex(listOfImages.length - 1);
+      if (activeImageIndex === 0 && product.images && product.images.length) {
+        setActiveImageIndex(product.images.length - 1);
       } else {
         setActiveImageIndex((prev) => prev - 1);
       }
