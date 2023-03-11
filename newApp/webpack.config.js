@@ -70,22 +70,23 @@ module.exports = {
             maxSize: 10 * 1024
           }
         }
-      }
+      },
     ]
   },
   resolve: {
     extensions: ['.tsx', '.jsx', '.js', '.ts'],
     alias: {
-      '@components': path.join(srcPath, 'components'),
+      '@components': path.join(srcPath, 'App/components'),
+      '@pages': path.join(srcPath, 'App/pages'),
       '@config': path.join(srcPath, 'config'),
+      '@store': path.join(srcPath, 'store'),
       '@styles': path.join(srcPath, 'styles'),
       '@utils': path.join(srcPath, 'utils'),
-      '@models': path.join(srcPath, 'models'),
     }
   },
   devServer: {
     host: '127.0.0.1',
-    port: 9001,
+    port: 9000,
     hot: true,
     historyApiFallback: true
   },

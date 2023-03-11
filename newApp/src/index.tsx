@@ -1,15 +1,22 @@
-import React from 'react';
-import ReactDOM from "react-dom/client";
-import 'regenerator-runtime';
+import React from "react";
 
-let root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+import ReactDOM from "react-dom/client";
+import "regenerator-runtime";
+// eslint-disable-next-line
+import { configure } from "mobx";
+
+import App from "./App";
+
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 
 root.render(
   <React.StrictMode>
-    <div>React приложение</div>
+    <App />
   </React.StrictMode>
 );
 
-if(module.hot){
-    module.hot.accept()
+if (module.hot) {
+  module.hot.accept();
 }

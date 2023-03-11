@@ -1,0 +1,22 @@
+@font-face {
+    font-family: 'Eudoxus Sans';
+    src: url('./EudoxusSans/EudoxusSans-Regular.woff2') format('woff2'),
+        url('./EudoxusSans/EudoxusSans-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('./Roboto/Roboto-Regular.woff2') format('woff2'),;
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Roboto';
+    src: url('./Roboto/Roboto-Bold.woff2') format('woff2'),;
+    font-weight: 700;
+    font-style: normal;
+}
