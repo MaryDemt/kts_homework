@@ -1,85 +1,98 @@
 @import '@styles/constants';
 
-.products {    
-    &__list {
-        padding: 34px 17.5%;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        position: relative;
+.products {
+  &__list {
+    padding: 34px 17.5%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    position: relative;
+  }
+
+  &__title {
+    @include fontStyle(700, 64px, 130%);
+    text-align: center;
+    color: $main-black;
+    margin: 100px 0 20px;
+  }
+
+  &__subtitle {
+    margin: 16px 17.5%;
+    @include fontStyle(700, 44px, 130%);
+  }
+
+  &__description {
+    word-spacing: 1px;
+    @include fontStyle(500, 18px, 180%);
+    text-align: center;
+    color: $text-grey;
+    margin: 0 33.3vw;
+  }
+
+  &__search {
+    margin: 77px 17.5% 51px;
+    display: flex;
+
+    &-button {
+      @include fontStyle(700, 18px, 130%);
+      background: $main-green;
+      padding: 15px 30px;
+      color: white;
+      margin: 0 0 0 auto;
+
+      &:hover {
+        opacity: 0.7;
+      }
     }
-    &__title {
-        @include fontStyle(700, 64px, 130%);
-        text-align: center;
-        color: $main-black;
-        margin: 100px 0 20px;
+  }
+
+  &__label {
+    background: $main-white;
+    @include box-shadow;
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    margin-right: 1.5vw;
+    padding: 9px 1.4vw;
+
+    &:focus-within {
+      background: #FFFFFF;
+      border: 1px solid #518581;
+      box-shadow: 0px 4px 120px rgba(175, 173, 181, 0.15);
+      color: rgba(21, 20, 17, 1);
     }
-    &__subtitle {
-        margin: 16px 17.5%;
-        @include fontStyle(700, 44px, 130%);
+  }
+
+  &__input {
+    padding-top: 3px;
+    @include fontStyle(500, 18px, 180%);
+
+    &::placeholder {
+      @include fontStyle(500, 18px, 180%);
     }
-    &__description {
-        word-spacing: 1px;
-        @include fontStyle(500, 18px, 180%);
-        text-align: center;
-        color: $text-grey;
-        margin: 0 33.3vw;
+  }
+
+  &__button {
+    background: $main-white;
+    @include box-shadow;
+    color: $main-black;
+    padding: 26px 51px;
+    display: flex;
+    @include fontStyle(500, 18px, 180%);
+
+    &:hover {
+      opacity: 0.7;
     }
-    &__search {
-        margin: 77px 17.5% 51px;
-        display: flex;
-        &-button {
-            @include fontStyle(700, 18px, 130%);
-            background: $main-green;
-            padding: 15px 30px;
-            color: white;
-            margin: 0 0 0 auto;
-            &:hover {
-                opacity: 0.7;
-            }
-        }
-    }
-    &__label {
-        background: $main-white;
-        @include box-shadow;
-        position: relative;
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        width: 100%;
-        margin-right: 1.5vw;
-        padding: 9px 1.4vw;
-        &:focus-within {
-            background: #FFFFFF;
-            border: 1px solid #518581;
-            box-shadow: 0px 4px 120px rgba(175, 173, 181, 0.15);
-            color: rgba(21, 20, 17, 1);
-        }
-    }
-    &__input {
-        padding-top: 3px;
-        @include fontStyle(500, 18px, 180%);
-        &::placeholder {
-            @include fontStyle(500, 18px, 180%);
-        }
-    }
-    &__button {
-        background: $main-white;
-        @include box-shadow;
-        color: $main-black;
-        padding: 26px 51px;
-        display: flex;
-        @include fontStyle(500, 18px, 180%);
-        &:hover {
-            opacity: 0.7;
-        }
-    }
-    &__length {
-        @include fontStyle(700, 16px, 130%);
-        padding: 10px 16px;
-        background: $secondary-grey;
-        color: $main-green;
-        border-radius: 20px;
-        vertical-align: super;
-        margin: 10px;
-    }
+  }
+
+  &__length {
+    @include fontStyle(700, 16px, 130%);
+    padding: 10px 16px;
+    background: $secondary-grey;
+    color: $main-green;
+    border-radius: 20px;
+    vertical-align: super;
+    margin: 10px;
+  }
 }

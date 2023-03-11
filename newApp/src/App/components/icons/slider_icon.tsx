@@ -3,13 +3,13 @@ import React from "react";
 interface Props {
   step: number;
   handleClick: Function;
-  nameOfClass: any;
+  nameOfClass: string;
 }
 
 export const SliderIcon = ({ nameOfClass, step, handleClick }: Props) => (
   <svg
     onClick={() => handleClick(step)}
-    className={`${nameOfClass}`}
+    className={nameOfClass}
     viewBox="0 0 13 24"
     xmlns="http://www.w3.org/2000/svg"
     strokeWidth="3"

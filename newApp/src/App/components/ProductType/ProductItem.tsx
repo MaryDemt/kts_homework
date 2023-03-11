@@ -6,13 +6,15 @@ interface ProductItem {
   images: string[];
   creationAt: string;
   updatedAt: string;
-  category: {
-    id: number;
-    name: string;
-    image: string;
-    creationAt: string;
-    updatedAt: string;
-  };
+  category: CategoryItem;
 }
+
+type CategoryItem = {
+  id: number;
+  name: string;
+  image: string;
+  creationAt: string;
+  updatedAt: string;
+};
 
 export default ProductItem;

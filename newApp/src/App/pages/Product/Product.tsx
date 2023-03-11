@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 
 import Loader from "@components/Loader";
 import { LoaderSize } from "@components/Loader/Loader";
+import ProductItem from "@components/ProductType/ProductItem";
 import CardItem from "@pages/Products/Card";
 import ProductStore from "@store/ProductStore";
 import { Meta } from "@utils/meta";
@@ -14,20 +15,16 @@ import styles from "./Product.module.scss";
 
 const Product = () => {
   const productStore = useLocalStore(() => new ProductStore());
+  const product: ProductItem = productStore.product;
   const { id } = useParams();
 
   useEffect(() => {
-    handleGetDataProduct();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    productStore.getProductData(id);
   }, []);
 
-  const handleGetDataProduct = async () => {
-    productStore.getProductData(id);
-  };
-
-  return productStore.product && productStore.product.title ? (
+  return product.title ? (
     <>
-      <Card product={productStore.product} />
+      <Card {...product} />
       <section className={styles.product__related}>
         <h2 className={styles["product__related-title"]}>Related Items</h2>
         <ul className={styles["product__related-list"]}>

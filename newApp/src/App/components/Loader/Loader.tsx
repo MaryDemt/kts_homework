@@ -14,17 +14,13 @@ export type LoaderProps = {
   className?: string;
 };
 
-const Loader: React.FC<LoaderProps> = (props) => {
-  return props.loading === true || props.loading === undefined ? (
-    <div
-      className={`${styles.loader} ${
-        props.size && styles[`loader_${props.size}`]
-      }
-      ${props.className && props.className}`}
-    ></div>
-  ) : (
-    <></>
-  );
+const Loader: React.FC<LoaderProps> = ({ loading, className, size }) => {
+  return loading === true || loading === undefined ? (
+    <span
+      className={`${styles.loader} ${size && styles[`loader_${size}`]}
+      ${className && className}`}
+    ></span>
+  ) : null;
 };
 
 export default Loader;

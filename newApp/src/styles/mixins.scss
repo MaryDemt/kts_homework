@@ -1,18 +1,18 @@
 @mixin iconSize($width, $height) {
-    width: $width;
-    height: $height;
+  width: $width;
+  height: $height;
 }
 
 @mixin box-shadow() {
-    -webkit-box-shadow: $project-box-shadow;
-       -moz-box-shadow: $project-box-shadow;       
-            box-shadow: $project-box-shadow;
+  -webkit-box-shadow: $project-box-shadow;
+  -moz-box-shadow: $project-box-shadow;
+  box-shadow: $project-box-shadow;
 }
 
 @mixin fontStyle($font-weight, $font-size, $line-height) {
-    font-family: 'Eudoxus Sans';
-    font-style: normal;
-    font-weight: $font-weight;
-    font-size: $font-size;
-    line-height: $line-height;
+  font-family: 'Eudoxus Sans';
+  font-style: normal;
+  font-weight: $font-weight;
+  font-size: $font-size;
+  line-height: $line-height;
 }

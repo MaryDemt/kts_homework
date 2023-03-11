@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 
 import { SliderIcon } from "@components/icons/slider_icon";
+import ProductItem from "@components/ProductType/ProductItem";
 
 import styles from "./Slider.module.scss";
 
-const Slider = ({ product }: any) => {
+const Slider = ({ ...product }: ProductItem) => {
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
 
   const handleSetActiveImage = (step: number) => {
@@ -42,12 +43,12 @@ const Slider = ({ product }: any) => {
           })
         : ""}
       <SliderIcon
-        nameOfClass={`${styles.slider__icon} ${styles["slider__icon-left"]}`}
+        nameOfClass={`${styles.slider__icon} ${styles["slider__icon_left"]}`}
         handleClick={handleSetActiveImage}
         step={-1}
       />
       <SliderIcon
-        nameOfClass={`${styles.slider__icon} ${styles["slider__icon-right"]}`}
+        nameOfClass={`${styles.slider__icon} ${styles["slider__icon_right"]}`}
         handleClick={handleSetActiveImage}
         step={1}
       />

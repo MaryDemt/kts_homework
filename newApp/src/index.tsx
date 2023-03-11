@@ -1,9 +1,8 @@
 import React from "react";
 
+import { configure } from "mobx";
 import ReactDOM from "react-dom/client";
 import "regenerator-runtime";
-// eslint-disable-next-line
-import { configure } from "mobx";
 
 import App from "./App";
 
