@@ -1,0 +1,30 @@
+@import '@styles/fonts';
+@import '@styles/constants';
+@import '@styles/reset';
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.icon {
+  @include iconSize(30px, 30px);
+  margin-right: 1.3vw;
+  margin-top: 10px;
+
+  &__main {
+    @include iconSize(130px, 100px);
+  }
+
+  &__filter {
+    margin-right: 0.8vw;
+    margin-top: 3px;
+  }
+
+  &__search {
+    margin-right: 1vw;
+    margin-top: 0px;
+  }
+}
