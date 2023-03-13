@@ -1,8 +1,6 @@
 import React from "react";
 
-import { configure } from "mobx";
 import ReactDOM from "react-dom/client";
-import "regenerator-runtime";
 
 import App from "./App";
 

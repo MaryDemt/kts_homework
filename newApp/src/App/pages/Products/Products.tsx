@@ -55,6 +55,7 @@ const Products = () => {
 
   useEffect(() => {
     handleGetDataProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTitle]);
 
   const handleGetDataProducts = (filterParameters = "") => {

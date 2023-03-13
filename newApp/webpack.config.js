@@ -11,7 +11,8 @@ const isProd = process.env.NODE_ENV === 'production';
 
 
 const getSettingsForStyles = (withModules = false) => {
-  return [MiniCssExtractPlugin.loader,
+  return [
+  isProd? MiniCssExtractPlugin.loader : 'style-loader',
   !withModules ? 'css-loader' : {
     loader: 'css-loader',
     options: {
@@ -35,7 +36,7 @@ module.exports = {
   devtool: isProd ? 'hidden-source-map' : 'eval-source-map',
   output: {
     path: buildPath,
-    filename: "bundle.js"
+    filename: "bundle.[hash:base64].js"
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -70,6 +71,10 @@ module.exports = {
             maxSize: 10 * 1024
           }
         }
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
       },
     ]
   },

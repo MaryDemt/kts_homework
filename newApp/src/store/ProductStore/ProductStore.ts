@@ -67,10 +67,10 @@ export default class ProductStore {
       method: "get",
       url: `${baseUrl}${GET_PRODUCTS}${id}/`,
     });
-    runInAction(async () => {
+    runInAction(() => {
       if (response.status === 200) {
         this._meta = Meta.success;
-        this._product = await response.data;
+        this._product = response.data;
         this.getSimilarProductData();
       }
       this._meta = Meta.error;

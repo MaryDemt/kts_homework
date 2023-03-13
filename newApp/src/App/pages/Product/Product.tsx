@@ -20,7 +20,7 @@ const Product = () => {
 
   useEffect(() => {
     productStore.getProductData(id);
-  }, []);
+  }, [id, productStore]);
 
   return product.title ? (
     <>

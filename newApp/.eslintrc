@@ -11,6 +11,9 @@
       "prettier"
     ],
     "ignorePatterns": ["gulpfile.js", "gulp/**/*", "webpack.config.js"],
+    "globals": {
+      "JSX": "readonly"
+    },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
       "ecmaFeatures": {
@@ -21,11 +24,17 @@
       "ecmaVersion": "latest",
       "sourceType": "module"
     },
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
     "plugins": ["@typescript-eslint", "import", "prettier"],
     "rules": {
       "no-console": "error",
       "prettier/prettier": "error",
-      "no-unused-vars": "warn",
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": ["error"],
       "import/order": [
         "error",
         {

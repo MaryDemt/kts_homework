@@ -35,6 +35,7 @@ const CategoriesDropDown = ({
     if (activeValue.name !== "") {
       handleGetDataProducts(activeValue.id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeValue]);
 
   const handleGetCategoriesList = async () => {
