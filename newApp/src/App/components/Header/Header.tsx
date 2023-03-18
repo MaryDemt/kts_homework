@@ -1,8 +1,8 @@
 import React from "react";
 
-import { BagIcon } from "@components/icons/bag-2";
-import { MainLogo } from "@components/icons/header_logo";
-import { UserIcon } from "@components/icons/user";
+import { BagIcon } from "@components/icons/BagIcon";
+import { MainLogo } from "@components/icons/HeaderLogo";
+import { UserIcon } from "@components/icons/UserIcon";
 import { Link } from "react-router-dom";
 
 import styles from "./Header.module.scss";

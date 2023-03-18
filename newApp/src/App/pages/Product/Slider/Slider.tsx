@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { SliderIcon } from "@components/icons/slider_icon";
+import { SliderIcon } from "@components/icons/SliderIcon";
 import ProductItem from "@components/ProductType/ProductItem";
 
 import styles from "./Slider.module.scss";

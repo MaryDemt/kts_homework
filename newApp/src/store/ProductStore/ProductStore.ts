@@ -12,33 +12,16 @@ import {
 
 type PrivateFields = "_product" | "_meta" | "_listOfSimilarProducts";
 
-const initialProductState = {
-  id: 0,
-  title: "",
-  price: 0,
-  description: "",
-  images: [],
-  creationAt: "",
-  updatedAt: "",
-  category: {
-    id: 0,
-    name: "",
-    image: "",
-    creationAt: "",
-    updatedAt: "",
-  },
-};
-
 export default class ProductStore {
-  private _product: ProductItem = initialProductState;
+  private _product: ProductItem | null = null;
   private _meta: Meta = Meta.initial;
   private _listOfSimilarProducts: ProductItem[] = [];
 
   constructor() {
     makeObservable<ProductStore, PrivateFields>(this, {
-      _product: observable,
+      _product: observable.ref,
       _meta: observable,
-      _listOfSimilarProducts: observable,
+      _listOfSimilarProducts: observable.ref,
       product: computed,
       meta: computed,
       listOfSimilarProducts: computed,
@@ -47,7 +30,7 @@ export default class ProductStore {
     });
   }
 
-  get product(): ProductItem {
+  get product(): ProductItem | null {
     return this._product;
   }
 
@@ -61,17 +44,22 @@ export default class ProductStore {
 
   getProductData = async (id: string | undefined) => {
     this._meta = Meta.loading;
-    this._product = initialProductState;
+    this._product = null;
     this._listOfSimilarProducts = [];
-    let response: AxiosResponse = await axios({
+    const response: AxiosResponse = await axios({
       method: "get",
       url: `${baseUrl}${GET_PRODUCTS}${id}/`,
     });
     runInAction(() => {
       if (response.status === 200) {
-        this._meta = Meta.success;
         this._product = response.data;
         this.getSimilarProductData();
+      }
+      return;
+    });
+    runInAction(() => {
+      if (response.status === 200) {
+        this._meta = Meta.success;
       }
       this._meta = Meta.error;
       return;
@@ -79,20 +67,28 @@ export default class ProductStore {
   };
 
   getSimilarProductData = async () => {
-    this._listOfSimilarProducts = [];
-    let response: AxiosResponse = await axios({
-      method: "get",
-      url: `${baseUrl}${GET_CATEGORIES}${this.product.category.id}/${GET_PRODUCTS}`,
-    });
-    runInAction(() => {
-      if (response.status === 200) {
-        this._meta = Meta.success;
-        this._listOfSimilarProducts = response.data.slice(0, 3);
+    if (this.product) {
+      this._listOfSimilarProducts = [];
+      const response: AxiosResponse = await axios({
+        method: "get",
+        url: `${baseUrl}${GET_CATEGORIES}${this.product.category.id}/${GET_PRODUCTS}`,
+      });
+      runInAction(() => {
+        if (response.status === 200) {
+          this._listOfSimilarProducts = response.data.slice(0, 3);
+          return;
+        }
         return;
-      }
-      this._meta = Meta.error;
-      return;
-    });
+      });
+      runInAction(() => {
+        if (response.status === 200) {
+          this._meta = Meta.success;
+          return;
+        }
+        this._meta = Meta.error;
+        return;
+      });
+    }
   };
 
   destroy(): void {}

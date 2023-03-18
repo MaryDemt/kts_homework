@@ -36,7 +36,7 @@
       @include fontStyle(700, 18px, 130%);
       background: $main-green;
       padding: 15px 30px;
-      color: white;
+      color: $main-white;
       margin: 0 0 0 auto;
 
       &:hover {
@@ -57,10 +57,10 @@
     padding: 9px 1.4vw;
 
     &:focus-within {
-      background: #FFFFFF;
-      border: 1px solid #518581;
-      box-shadow: 0px 4px 120px rgba(175, 173, 181, 0.15);
-      color: rgba(21, 20, 17, 1);
+      background: $main-white;
+      border: 1px solid $main-green;
+      @include box-shadow;
+      color: $main-black;
     }
   }
 

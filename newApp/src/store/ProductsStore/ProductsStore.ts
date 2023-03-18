@@ -53,9 +53,16 @@ export default class ProductsStore {
     });
     runInAction(() => {
       if (response.status === 200) {
-        this._meta = Meta.success;
         this._list = response.data.slice(0, 12);
         this._listLength = response.data.length;
+        return;
+      }
+      return;
+    });
+    runInAction(() => {
+      if (response.status === 200) {
+        this._meta = Meta.success;
+
         return;
       }
       this._meta = Meta.error;
@@ -64,7 +71,6 @@ export default class ProductsStore {
   };
 
   handleAddNewItems = async (url: string) => {
-    this._meta = Meta.loading;
     const response: AxiosResponse = await axios({
       method: "get",
       url,
@@ -72,10 +78,8 @@ export default class ProductsStore {
     runInAction(() => {
       if (response.status === 200) {
         this._list.push(...response.data);
-        this._meta = Meta.success;
         return;
       }
-      this._meta = Meta.error;
       return;
     });
   };
@@ -89,8 +93,14 @@ export default class ProductsStore {
     runInAction(() => {
       if (response.status === 200) {
         this._list = response.data.slice(0, 12);
-        this._meta = Meta.success;
         this._listLength = response.data.length;
+        return;
+      }
+      return;
+    });
+    runInAction(() => {
+      if (response.status === 200) {
+        this._meta = Meta.success;
         return;
       }
       this._meta = Meta.error;

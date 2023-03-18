@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-import { FilterIcon } from "@components/icons/filter_icon";
-import { SearchIcon } from "@components/icons/search_icon";
+import { FilterIcon } from "@components/icons/FilterIcon";
+import { SearchIcon } from "@components/icons/SearchIcon";
 import Loader from "@components/Loader";
 import { LoaderSize } from "@components/Loader/Loader";
+import { WithLoader } from "@components/Loader/WithLoader";
 import { baseUrl, GET_PRODUCTS } from "@config/const";
 import ProductsStore from "@store/ProductsStore";
-import { Meta } from "@utils/meta";
 import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -60,7 +60,7 @@ const Products = () => {
 
   const handleGetDataProducts = (filterParameters = "") => {
     const preparedUrl = makeFiltersUrl(
-      searchTitle,
+      searchParams ? searchParams : searchTitle,
       filterParameters ? filterParameters : categoryId,
       offset,
       limit
@@ -93,13 +93,7 @@ const Products = () => {
     }
   };
 
-  const handleSearchItem = () => {
-    const preparedUrl = makeFiltersUrl(searchParams, categoryId, "1", limit);
-    productsStore.findSearchByTitle(preparedUrl);
-    navigate(`/${preparedUrl}`);
-  };
-
-  return (
+  const ProductsLayout = () => (
     <>
       <h1 className={styles.products__title}>Products</h1>
       <p className={styles.products__description}>
@@ -112,12 +106,14 @@ const Products = () => {
           <input
             className={styles.products__input}
             placeholder="Search property"
-            value={searchParams}
-            onChange={(e) => setSearchParams(e.target.value)}
+            defaultValue={searchParams}
+            type="text"
+            onBlur={(e) => setSearchParams(e.target.value)}
           />
           <button
             className={styles["products__search-button"]}
-            onClick={handleSearchItem}
+            type="button"
+            onClick={() => handleGetDataProducts()}
           >
             Find Now
           </button>
@@ -125,6 +121,7 @@ const Products = () => {
         <button
           className={styles.products__button}
           onClick={() => setFilterListIsOpen(!filterListIsOpen)}
+          type="button"
         >
           <FilterIcon />
           Filter
@@ -143,27 +140,35 @@ const Products = () => {
         </span>
       </h2>
       <ul className={styles.products__list}>
-        {productsStore.list.length ? (
-          productsStore.list.map((it, index) => {
-            return <CardItem key={index + it.price + it.title} {...it} />;
-          })
-        ) : (
-          <Loader
-            size={LoaderSize.m}
-            loading={productsStore.meta === Meta.loading}
-          />
-        )}
+        {productsStore.list.length
+          ? productsStore.list.map((it, index) => {
+              return <CardItem key={index + it.price + it.title} {...it} />;
+            })
+          : ""}
       </ul>
       <InfiniteScroll
-        dataLength={productsStore.list.length}
+        dataLength={productsStore.listLength}
         next={handleAddNewProducts}
-        hasMore={true}
+        hasMore={
+          productsStore.listLength > 12 &&
+          Math.floor(productsStore.listLength / 12) !== currentPage
+            ? true
+            : false
+        }
         loader={<Loader size={LoaderSize.s} loading={false} />}
       >
-        <Loader size={LoaderSize.s} loading={false} />
+        {/* <Loader size={LoaderSize.s} loading={false} /> */}
       </InfiniteScroll>
     </>
   );
+
+  const ProductsWithLoader = WithLoader(
+    ProductsLayout,
+    LoaderSize.m,
+    productsStore.meta
+  );
+
+  return <ProductsWithLoader />;
 };
 
 export default observer(Products);

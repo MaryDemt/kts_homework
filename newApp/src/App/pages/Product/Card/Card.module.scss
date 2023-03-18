@@ -1,6 +1,6 @@
 @import '@styles/constants';
 
-.product-card {
+.card {
   @include fontStyle(700, 44px, 130%);
   display: flex;
   padding: 98px 17.5% 52px;

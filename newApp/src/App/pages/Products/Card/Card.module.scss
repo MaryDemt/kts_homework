@@ -1,6 +1,6 @@
 @import '@styles/constants';
 
-.card {
+.cards {
   @include fontStyle(700, 18px, 130%);
   display: flex;
   flex-direction: column;

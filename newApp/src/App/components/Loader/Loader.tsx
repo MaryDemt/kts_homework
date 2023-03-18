@@ -1,5 +1,7 @@
 import React from "react";
 
+import classnames from "classnames";
+
 import styles from "./Loader.module.scss";
 
 export enum LoaderSize {
@@ -14,13 +16,14 @@ export type LoaderProps = {
   className?: string;
 };
 
-const Loader: React.FC<LoaderProps> = ({ loading, className, size }) => {
-  return loading === true || loading === undefined ? (
+const Loader: React.FC<LoaderProps> = ({ className, size }) => {
+  return (
     <span
-      className={`${styles.loader} ${size && styles[`loader_${size}`]}
-      ${className && className}`}
+      className={classnames(styles.loader, styles[`loader_${size}`], {
+        className: className,
+      })}
     ></span>
-  ) : null;
+  );
 };
 
 export default Loader;

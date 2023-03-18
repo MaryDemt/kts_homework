@@ -7,20 +7,20 @@ import styles from "./Card.module.scss";
 
 const CardItem = (item: ProductItem) => {
   return (
-    <article key={item.id} className={styles.card}>
+    <article key={item.id} className={styles.cards}>
       <img
-        className={styles.card__image}
+        className={styles.cards__image}
         src={item.images && item.images.length ? item.images[0] : ""}
         alt={item.description}
       />
-      <p className={styles.card__category}>
+      <p className={styles.cards__category}>
         {item.category && item.category.name ? item.category.name : ""}
       </p>
-      <Link to={`/${item.id}`} className={styles.card__title}>
+      <Link to={`/${item.id}`} className={styles.cards__title}>
         {item.title}
       </Link>
-      <p className={styles.card__description}>{item.description}</p>
-      <p className={styles.card__price}>${item.price}</p>
+      <p className={styles.cards__description}>{item.description}</p>
+      <p className={styles.cards__price}>${item.price}</p>
     </article>
   );
 };
