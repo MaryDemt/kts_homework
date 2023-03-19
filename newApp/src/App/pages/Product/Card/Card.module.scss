@@ -45,3 +45,22 @@
     }
   }
 }
+
+@media (max-width: 1050px) {
+  .card {
+    flex-direction: column;
+    &__price {
+      margin: 48px 0;
+    }
+    &__button {
+      width: 100%;
+      &-group {
+        flex-direction: column;
+      }
+      &_outline {
+        margin-left: 0;
+        margin-top: 20px;
+      }
+    }
+  }
+}

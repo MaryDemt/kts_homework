@@ -38,3 +38,14 @@
     margin: 10px;
   }
 }
+
+@media (max-width: 1050px) {
+  .products {
+    &__description {
+      margin: 0 19vw;
+    }
+    &__list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}

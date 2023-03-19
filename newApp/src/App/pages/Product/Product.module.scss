@@ -20,3 +20,14 @@
     margin: 30vh 50%;
   }
 }
+
+@media (max-width: 1050px) {
+  .product {
+    &__related {
+      &-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
+}

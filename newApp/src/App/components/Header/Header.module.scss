@@ -30,3 +30,17 @@
         }
     }
 }
+
+@media (max-width: 1050px) {
+    .header {
+        &__tabs {
+            display: none;
+        }
+        &__icons {
+            display: none;
+        }
+        &::after {
+            content: url(../../../public/menu.svg);
+        }
+    }
+}

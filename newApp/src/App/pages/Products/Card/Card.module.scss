@@ -39,3 +39,9 @@
     margin-top: auto;
   }
 }
+
+@media (max-width: 1050px) {
+  .cards {
+    width: 31.5vw;
+  }
+}

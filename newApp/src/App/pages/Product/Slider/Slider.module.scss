@@ -42,3 +42,13 @@
     }
   }
 }
+
+@media (max-width: 1050px) {
+  .slider {
+    margin-right: 0;
+    &__image {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
