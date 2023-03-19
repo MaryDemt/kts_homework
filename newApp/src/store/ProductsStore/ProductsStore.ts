@@ -73,7 +73,7 @@ export default class ProductsStore {
   handleAddNewItems = async (url: string) => {
     const response: AxiosResponse = await axios({
       method: "get",
-      url,
+      url: `${baseUrl}${GET_PRODUCTS}${url}`,
     });
     runInAction(() => {
       if (response.status === 200) {

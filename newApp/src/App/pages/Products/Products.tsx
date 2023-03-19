@@ -1,96 +1,67 @@
 import React, { useEffect, useState } from "react";
 
-import { FilterIcon } from "@components/icons/FilterIcon";
-import { SearchIcon } from "@components/icons/SearchIcon";
 import Loader from "@components/Loader";
 import { LoaderSize } from "@components/Loader/Loader";
 import { WithLoader } from "@components/Loader/WithLoader";
-import { baseUrl, GET_PRODUCTS } from "@config/const";
 import ProductsStore from "@store/ProductsStore";
 import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 import CardItem from "./Card";
 import CategoriesDropDown from "./CategoriesDropDown";
 import styles from "./Products.module.scss";
+import SearchBlock from "./Search/SearchBlock";
 
-const makeFiltersUrl = (
-  title: string | null,
-  categoryId: string | null,
-  offset: string | null,
-  limit: string | null
-) => {
+const makeFiltersUrl = (query: Object) => {
   let result: string = "";
-  if (title) {
-    result += `?title=${title}`;
-  }
-  if (categoryId) {
-    result += result.length
-      ? `&categoryId=${categoryId}`
-      : `?categoryId=${categoryId}`;
-  }
-  if (offset) {
-    result += result.length ? `&offset=${offset}` : `?offset=${offset}`;
-  }
-  if (limit) {
-    result += result.length ? `&limit=${limit}` : `?limit=${limit}`;
+  const queryArray = Object.entries(query);
+  if (queryArray.length) {
+    result += "?";
+    for (let i = 0; i < queryArray.length; i++) {
+      if (queryArray[i][1] !== null && queryArray[i][1] !== "") {
+        result += `${queryArray[i][0]}=${queryArray[i][1]}`;
+
+        if (i != queryArray.length - 1) {
+          result += "&";
+        }
+      }
+    }
   }
   return result;
 };
 
 const Products = () => {
-  const [filterParams] = useSearchParams();
+  const [filterParams, setFilterParams] = useSearchParams();
   const searchTitle = filterParams.get("title");
   const categoryId = filterParams.get("categoryId");
-  const offset = filterParams.get("offset");
-  const limit = filterParams.get("limit");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [searchParams, setSearchParams] = useState<string>("");
+  const [searchParams, setSearchParams] = useState<string | null>(searchTitle);
   const [filterListIsOpen, setFilterListIsOpen] = useState<boolean>(false);
+  const [currentCategoryId, setCurrentCategoryId] = useState(categoryId);
   const productsStore = useLocalStore(() => new ProductsStore());
 
-  const navigate = useNavigate();
-
   useEffect(() => {
-    handleGetDataProducts();
+    handleGetData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchTitle]);
+  }, []);
 
-  const handleGetDataProducts = (filterParameters = "") => {
-    const preparedUrl = makeFiltersUrl(
-      searchParams ? searchParams : searchTitle,
-      filterParameters ? filterParameters : categoryId,
-      offset,
-      limit
-    );
-    productsStore.handleGetListOfProducts(preparedUrl);
-    navigate(preparedUrl ? preparedUrl : "/");
-  };
-
-  const handleAddNewProducts = () => {
-    if (
-      productsStore.listLength > 12 &&
-      Math.ceil(productsStore.listLength / 12) !== currentPage
-    ) {
-      let url = "";
-      if (!searchTitle && !categoryId && !offset && !limit) {
-        url = `${baseUrl}${GET_PRODUCTS}?offset=${currentPage + 1}&limit=12`;
-      } else {
-        url = `${baseUrl}${GET_PRODUCTS}${makeFiltersUrl(
-          searchTitle,
-          categoryId,
-          String(currentPage + 1),
-          "12"
-        )}`;
-      }
-      productsStore.handleAddNewItems(url);
+  const handleGetData = async (needToAddNew = false, categoryId = "") => {
+    const preparedUrl = makeFiltersUrl({
+      title: searchParams,
+      categoryId: currentCategoryId,
+      offset: needToAddNew ? String(currentPage + 1) : "1",
+      limit: needToAddNew ? "12" : null,
+    });
+    if (needToAddNew) {
+      await productsStore.handleAddNewItems(preparedUrl);
       setCurrentPage((prev) => prev + 1);
-      navigate(
-        makeFiltersUrl(searchTitle, categoryId, String(currentPage + 1), limit)
-      );
+    } else {
+      await productsStore.handleGetListOfProducts(preparedUrl);
     }
+    categoryId && setCurrentCategoryId(categoryId);
+    setFilterParams(preparedUrl);
   };
 
   const ProductsLayout = () => (
@@ -100,37 +71,17 @@ const Products = () => {
         We display products based on the latest products we have, if you want to
         see our old products please enter the name of the item
       </p>
-      <div className={styles.products__search}>
-        <label className={styles.products__label}>
-          <SearchIcon />
-          <input
-            className={styles.products__input}
-            placeholder="Search property"
-            defaultValue={searchParams}
-            type="text"
-            onBlur={(e) => setSearchParams(e.target.value)}
-          />
-          <button
-            className={styles["products__search-button"]}
-            type="button"
-            onClick={() => handleGetDataProducts()}
-          >
-            Find Now
-          </button>
-        </label>
-        <button
-          className={styles.products__button}
-          onClick={() => setFilterListIsOpen(!filterListIsOpen)}
-          type="button"
-        >
-          <FilterIcon />
-          Filter
-        </button>
-      </div>
+      <SearchBlock
+        handleGetData={handleGetData}
+        setFilterListIsOpen={setFilterListIsOpen}
+        setSearchParams={setSearchParams}
+        searchParams={searchParams}
+        filterListIsOpen={filterListIsOpen}
+      />
       {filterListIsOpen && (
         <CategoriesDropDown
-          handleGetDataProducts={handleGetDataProducts}
-          activeCategoryId={categoryId}
+          handleGetDataProducts={handleGetData}
+          activeCategoryId={currentCategoryId}
         />
       )}
       <h2 className={styles.products__subtitle}>
@@ -148,7 +99,7 @@ const Products = () => {
       </ul>
       <InfiniteScroll
         dataLength={productsStore.listLength}
-        next={handleAddNewProducts}
+        next={() => handleGetData(true)}
         hasMore={
           productsStore.listLength > 12 &&
           Math.floor(productsStore.listLength / 12) !== currentPage

@@ -33,7 +33,7 @@ const CategoriesDropDown = ({
 
   useEffect(() => {
     if (activeValue.name !== "") {
-      handleGetDataProducts(activeValue.id);
+      handleGetDataProducts(false, activeValue.id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeValue]);
