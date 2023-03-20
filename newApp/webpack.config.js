@@ -48,6 +48,11 @@ module.exports = {
     }),
     new TsCheckerPlugin()
   ].filter(Boolean),
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
+  },
   module: {
     rules: [
       {
