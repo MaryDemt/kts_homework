@@ -5,18 +5,18 @@ import Header from "@components/Header";
 import CategoriesList from "@pages/Categories";
 import Product from "@pages/Product";
 import Products from "@pages/Products";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Header />
       <Routes>
         <Route path="/" element={<Products />} />
         <Route path="/:id" element={<Product />} />
         <Route path="/categories" element={<CategoriesList />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 export default App;
