@@ -9,7 +9,7 @@ interface ProductItem {
   category: CategoryItem;
 }
 
-type CategoryItem = {
+export type CategoryItem = {
   id: number;
   name: string;
   image: string;
