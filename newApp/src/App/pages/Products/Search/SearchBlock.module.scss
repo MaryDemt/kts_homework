@@ -73,3 +73,20 @@
     }
   }
 }
+
+@media (max-width: 700px) {
+  .products {
+    &__input {
+      font-size: 10px;
+      &::placeholder {
+        font-size: 12px;
+      }
+    }
+    &__search {
+      &-button {
+        font-size: 12px;
+        white-space: nowrap;
+      }
+    }
+  }
+}

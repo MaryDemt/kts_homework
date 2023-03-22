@@ -36,3 +36,23 @@
     }
   }
 }
+
+@media (max-width: 1050px) {
+  .multi-dropdown {
+    &__header {
+      padding: 15px 0 15px 10px;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .multi-dropdown {
+    width: 200px;
+    &__header {
+      font-size: 12px;
+    }
+    &__item {
+      font-size: 12px;
+    }
+  }
+}

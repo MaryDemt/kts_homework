@@ -43,5 +43,24 @@
 @media (max-width: 1050px) {
   .cards {
     width: 31.5vw;
+    &__description {
+      text-overflow: ellipsis;
+      width: auto;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .cards {
+    font-size: 12px;
+    &__title {
+      font-size: 18px;
+      line-height: 1.2;
+    }
+    &__description {
+      font-size: 12px;
+    }
   }
 }

@@ -49,3 +49,11 @@
     }
   }
 }
+
+@media (max-width: 700px) {
+  .products {
+    &__subtitle {
+      font-size: 30px;
+    }
+  }
+}
