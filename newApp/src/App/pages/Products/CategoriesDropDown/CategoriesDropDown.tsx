@@ -13,18 +13,18 @@ interface CategoryItem {
 
 interface PropsItem {
   handleGetDataProducts: Function;
-  activeCategoryId: string | null;
+  activeCategory: CategoryItem;
 }
 
 const CategoriesDropDown = ({
   handleGetDataProducts,
-  activeCategoryId,
+  activeCategory,
 }: PropsItem) => {
   const [categoriesList, setCategoriesList] = useState<CategoryItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [activeValue, setActiveValue] = useState<CategoryItem>({
+    id: -1,
     name: "",
-    id: 0,
     image: "",
   });
   useEffect(() => {
@@ -32,8 +32,12 @@ const CategoriesDropDown = ({
   }, []);
 
   useEffect(() => {
-    if (activeValue.name !== "") {
-      handleGetDataProducts(false, activeValue.id);
+    if (activeCategory.id === activeValue.id && isOpen) {
+      handleGetDataProducts(false, -1);
+    } else {
+      if (activeValue.name !== "" && isOpen) {
+        handleGetDataProducts(false, activeValue.id);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeValue]);
@@ -52,7 +56,7 @@ const CategoriesDropDown = ({
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className={styles["multi-dropdown__title"]}>
-          {activeValue.name !== "" ? activeValue.name : "Category"}
+          {activeCategory.name !== "" ? activeCategory.name : "Category"}
         </div>
       </div>
       {categoriesList.length && isOpen ? (
@@ -62,7 +66,7 @@ const CategoriesDropDown = ({
               <div
                 className={`${styles["multi-dropdown__item"]} ${
                   (activeValue.name === it.name ||
-                    Number(activeCategoryId) === it.id) &&
+                    Number(activeCategory.id) === it.id) &&
                   styles["multi-dropdown__item_active"]
                 } `}
                 key={it.id}

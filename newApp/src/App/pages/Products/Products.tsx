@@ -3,8 +3,11 @@ import React, { useEffect, useState } from "react";
 import Loader from "@components/Loader";
 import { LoaderSize } from "@components/Loader/Loader";
 import { WithLoader } from "@components/Loader/WithLoader";
+import { CategoryItem } from "@components/ProductType/ProductItem";
+import { baseUrl, GET_CATEGORIES } from "@config/const";
 import ProductsStore from "@store/ProductsStore";
 import { useLocalStore } from "@utils/useLocalStore";
+import axios, { AxiosResponse } from "axios";
 import { observer } from "mobx-react-lite";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useSearchParams } from "react-router-dom";
@@ -20,7 +23,11 @@ const makeFiltersUrl = (query: Object) => {
   if (queryArray.length) {
     result += "?";
     for (let i = 0; i < queryArray.length; i++) {
-      if (queryArray[i][1] !== null && queryArray[i][1] !== "") {
+      if (
+        queryArray[i][1] !== null &&
+        queryArray[i][1] !== "" &&
+        queryArray[i][1] !== -1
+      ) {
         result += `${queryArray[i][0]}=${queryArray[i][1]}`;
 
         if (i != queryArray.length - 1) {
@@ -39,29 +46,61 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchParams, setSearchParams] = useState<string | null>(searchTitle);
   const [filterListIsOpen, setFilterListIsOpen] = useState<boolean>(false);
-  const [currentCategoryId, setCurrentCategoryId] = useState(categoryId);
+  const [currentCategory, setCurrentCategory] = useState<CategoryItem>({
+    id: -1,
+    name: "",
+    image: "",
+    creationAt: "",
+    updatedAt: "",
+  });
   const productsStore = useLocalStore(() => new ProductsStore());
 
   useEffect(() => {
-    handleGetData();
+    handleGetCategoryInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryId]);
+
+  useEffect(() => {
+    handleGetData(false, categoryId ? categoryId : "");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleGetData = async (needToAddNew = false, categoryId = "") => {
-    const preparedUrl = makeFiltersUrl({
+    const data = {
       title: searchParams,
-      categoryId: currentCategoryId,
       offset: needToAddNew ? String(currentPage + 1) : "1",
       limit: needToAddNew ? "12" : null,
-    });
+      categoryId: "",
+    };
+    if (categoryId || currentCategory.id !== -1) {
+      data.categoryId = categoryId ? categoryId : String(currentCategory.id);
+    }
+    const preparedUrl = makeFiltersUrl(data);
     if (needToAddNew) {
       await productsStore.handleAddNewItems(preparedUrl);
       setCurrentPage((prev) => prev + 1);
     } else {
       await productsStore.handleGetListOfProducts(preparedUrl);
     }
-    categoryId && setCurrentCategoryId(categoryId);
     setFilterParams(preparedUrl);
+  };
+
+  const handleGetCategoryInfo = async () => {
+    if (categoryId) {
+      let responseData: AxiosResponse = await axios({
+        method: "get",
+        url: `${baseUrl}${GET_CATEGORIES}${categoryId}`,
+      });
+      setCurrentCategory(responseData.data);
+    } else {
+      setCurrentCategory({
+        id: -1,
+        name: "",
+        image: "",
+        creationAt: "",
+        updatedAt: "",
+      });
+    }
   };
 
   const ProductsLayout = () => (
@@ -81,7 +120,7 @@ const Products = () => {
       {filterListIsOpen && (
         <CategoriesDropDown
           handleGetDataProducts={handleGetData}
-          activeCategoryId={currentCategoryId}
+          activeCategory={currentCategory}
         />
       )}
       <h2 className={styles.products__subtitle}>
