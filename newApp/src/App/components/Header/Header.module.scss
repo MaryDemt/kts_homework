@@ -1,0 +1,46 @@
+@import '@styles/constants';
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16% 10px 17.5%;
+    color: $main-black;
+    border-bottom: 2px solid $main-grey;
+    @include fontStyle(500, 18px, 180%);
+    &__tabs {
+        display: flex;
+        margin-left: 12px;
+    }
+    &__item {
+        font-size: 18px;
+        margin-right: 60px;
+        color:$main-black;
+        &_active {
+            color: $main-green;
+            position: relative;
+            &::after {
+                content: '';
+                border: 2px solid $main-green;
+                position: absolute;
+                width: 100%;
+                left: 0;
+                bottom: -45px;
+            }
+        }
+    }
+}
+
+@media (max-width: 1050px) {
+    .header {
+        &__tabs {
+            display: none;
+        }
+        &__icons {
+            display: none;
+        }
+        &::after {
+            content: url(../../../public/menu.svg);
+        }
+    }
+}

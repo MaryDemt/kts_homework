@@ -1,0 +1,33 @@
+@import '@styles/constants';
+
+.product {
+  &__related {
+    padding: 0 16% 0 17.5%;
+
+    &-title {
+      @include fontStyle(700, 32px, 130%);
+      letter-spacing: 0.01em;
+      color: $main-black;
+      margin-bottom: 30px;
+    }
+
+    &-list {
+      display: flex;
+    }
+  }
+
+  &__loader {
+    margin: 30vh 50%;
+  }
+}
+
+@media (max-width: 1050px) {
+  .product {
+    &__related {
+      &-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
+}

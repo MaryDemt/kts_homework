@@ -1,0 +1,59 @@
+@import '@styles/constants';
+
+.products {
+  &__list {
+    padding: 34px 17.5%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    position: relative;
+  }
+
+  &__title {
+    @include fontStyle(700, 64px, 130%);
+    text-align: center;
+    color: $main-black;
+    margin: 100px 0 20px;
+  }
+
+  &__subtitle {
+    margin: 16px 17.5%;
+    @include fontStyle(700, 44px, 130%);
+  }
+
+  &__description {
+    word-spacing: 1px;
+    @include fontStyle(500, 18px, 180%);
+    text-align: center;
+    color: $text-grey;
+    margin: 0 33.3vw;
+  }
+
+  &__length {
+    @include fontStyle(700, 16px, 130%);
+    padding: 10px 16px;
+    background: $secondary-grey;
+    color: $main-green;
+    border-radius: 20px;
+    vertical-align: super;
+    margin: 10px;
+  }
+}
+
+@media (max-width: 1050px) {
+  .products {
+    &__description {
+      margin: 0 19vw;
+    }
+    &__list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .products {
+    &__subtitle {
+      font-size: 30px;
+    }
+  }
+}

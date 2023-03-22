@@ -1,0 +1,70 @@
+@import '@styles/constants';
+
+.slider {
+  position: relative;
+  margin-right: 2.5vw;
+
+  &__image {
+    width: 31.2vw;
+    height: 31.2vw;
+    display: none;
+
+    &_active {
+      display: block;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    @include iconSize(28px, 28px);
+    fill: none;
+    stroke: $main-white;
+    padding: 17px;
+    border-radius: 50%;
+    background-color: $secondary-black;
+    opacity: 0.6;
+    @include box-shadow;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &_right {
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    &_left {
+      left: 24px;
+      top: 50%;
+      transform: translateY(-50%) rotate(180deg);
+    }
+  }
+}
+
+@media (max-width: 1050px) {
+  .slider {
+    margin-right: 0;
+    &__image {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .slider {
+    &__icon {
+      @include iconSize(15px, 15px);
+      padding: 10px;
+      &_right {
+        right: 14px;
+      }
+  
+      &_left {
+        left: 14px;
+      }
+    }
+  }
+}

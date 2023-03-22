@@ -1,0 +1,92 @@
+@import '@styles/constants';
+
+.products {
+  &__search {
+    margin: 77px 17.5% 51px;
+    display: flex;
+
+    &-button {
+      @include fontStyle(700, 18px, 130%);
+      background: $main-green;
+      padding: 15px 30px;
+      color: $main-white;
+      margin: 0 0 0 auto;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+
+  &__label {
+    background: $main-white;
+    @include box-shadow;
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    margin-right: 1.5vw;
+    padding: 9px 1.4vw;
+
+    &:focus-within {
+      background: $main-white;
+      border: 1px solid $main-green;
+      @include box-shadow;
+      color: $main-black;
+    }
+  }
+
+  &__input {
+    padding-top: 3px;
+    @include fontStyle(500, 18px, 180%);
+
+    &::placeholder {
+      @include fontStyle(500, 18px, 180%);
+    }
+  }
+
+  &__button {
+    background: $main-white;
+    @include box-shadow;
+    color: $main-black;
+    padding: 26px 51px;
+    display: flex;
+    @include fontStyle(500, 18px, 180%);
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+
+@media (max-width: 1050px) {
+  .products {
+    &__search {
+      flex-direction: column;
+    }
+    &__button {
+      width: 104%;
+      padding: 17px 0;
+      margin-top: 20px;
+      justify-content: center;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .products {
+    &__input {
+      font-size: 10px;
+      &::placeholder {
+        font-size: 12px;
+      }
+    }
+    &__search {
+      &-button {
+        font-size: 12px;
+        white-space: nowrap;
+      }
+    }
+  }
+}
